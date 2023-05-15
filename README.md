@@ -18,6 +18,16 @@ personal and sensitive data
 
 [OpenAIRE guide on licensing of research data](https://www.openaire.eu/how-do-i-license-my-research-data)
 
+**Related publications**
+Any papers regarding licensing
+- from the point of view of repos/infras
+- from the point of view of licensing issues with regard mainly of open data (e.g. legal perspectives)
+
+To search: 
+- resource-related venues (LREC, CLARIN, LDK, ...)
+- legal venues and journals???
+TO ADD papers from CLIC, META-SHARE, etc.
+
 ## Related vocabularies& groups 
 
 [W3C ODRL group page](https://www.w3.org/community/odrl/)
