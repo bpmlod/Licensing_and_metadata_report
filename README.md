@@ -12,7 +12,7 @@ TODO
 TOADD
 personal and sensitive data
 
-##Related literature
+## Related literature
 
 **Guidelines, training material, etc.**
 
@@ -47,7 +47,7 @@ TO ADD papers from CLIC, META-SHARE, etc.
 [Licence SPDX identifiers](https://spdx.dev/ids/)
 
 
-##Related tools and services
+## Related tools and services
 
 **Licensing tools**
 
@@ -57,4 +57,6 @@ TO ADD papers from CLIC, META-SHARE, etc.
 - [Public license selector](https://ufal.github.io/public-license-selector/)
 - [Plain text summaries for popular licences](https://www.tldrlegal.com/)
 
-TODO add consent and compatibility tools
+**Consent and compatibility tools**
+
+TODO 
