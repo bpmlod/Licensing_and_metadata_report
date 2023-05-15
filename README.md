@@ -5,12 +5,14 @@ Working space and collection of related material for the guidelines related to m
 ## Structure of the repository
 TODO
 
-**Definitions**
+##Definitions
 
 - [Definition of "open" (Open Knowledge Foundation)](http://opendefinition.org/)
 
 TOADD
 personal and sensitive data
+
+##Related literature
 
 **Guidelines, training material, etc.**
 
@@ -44,6 +46,8 @@ TO ADD papers from CLIC, META-SHARE, etc.
 
 [Licence SPDX identifiers](https://spdx.dev/ids/)
 
+
+##Related tools and services
 
 **Licensing tools**
 
