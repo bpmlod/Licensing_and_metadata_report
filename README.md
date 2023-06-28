@@ -2,6 +2,11 @@
 
 Working space and collection of related material for the guidelines related to metadata and licensing for LLOD
 
+## Useful links
+W3C BPMLOD page: https://www.w3.org/community/bpmlod/
+W3C BPMLOD wiki: https://www.w3.org/community/bpmlod/wiki/Guidelines_and_best_practices_for_LLOD 
+
+
 ## Structure of the repository
 TODO
 
