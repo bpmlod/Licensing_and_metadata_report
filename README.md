@@ -3,8 +3,12 @@
 Working space and collection of related material for the guidelines related to metadata and licensing for LLOD
 
 ## Useful links
-W3C BPMLOD page: https://www.w3.org/community/bpmlod/
-W3C BPMLOD wiki: https://www.w3.org/community/bpmlod/wiki/Guidelines_and_best_practices_for_LLOD 
+- Wiki for licensing & metadata: https://www.w3.org/community/bpmlod/wiki/Licensing_and_metadata_group
+- Rolling minutes (with link for connection): https://docs.google.com/document/d/1V8A4dtI8xGaBLjy5sTeFodAuuZ98VYBvNHj-fRpQoyc/edit
+- Link to zotero bibliography (work in progress): https://www.zotero.org/groups/5088775/bpmlod/library
+  
+- W3C BPMLOD page: https://www.w3.org/community/bpmlod/
+- W3C BPMLOD wiki: https://www.w3.org/community/bpmlod/wiki/Guidelines_and_best_practices_for_LLOD
 
 
 ## Structure of the repository
