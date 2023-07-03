@@ -34,7 +34,13 @@ Any papers regarding licensing
 - from the point of view of repos/infras
 - from the point of view of licensing issues with regard mainly of open data (e.g. legal perspectives)
 
-Rodríguez-Doncel, V., Labropoulou, P., Gkirtzou, K. (2022) Rights Management for Language Resources III Workshop INTELE, Madrid [https://doi.org/10.5281/zenodo.7140773]
+**Resources (order of interest)**
+- Digital Representation of Rights for Language Resources, V. Rodriguez-Doncel, P. Labropoulou in Proc. of the 4th Workshop on Linked Data in Linguistics: Resources and Applications, pp. 49-58, ISBN 978-1-941643-57-0, ACL-IJCNPL (Eds.) (2015)
+- Rodríguez-Doncel, V., Labropoulou, P., Gkirtzou, K. (2022) Rights Management for Language Resources III Workshop INTELE, Madrid [https://doi.org/10.5281/zenodo.7140773]
+- V. Rodríguez-Doncel, S. Villata, A. Gómez-Pérez (2014) A Dataset of RDF Licenses, , in Proc. of the 27th Int. Conf. on Legal Knowledge and Information System (JURIX), R. Hoekstra (Ed.), ISBN 978-1-61499-467-1, pp. 187-189, IOS Press [https://oa.upm.es/id/eprint/36806]
+- One ontology to bind them all: The META-SHARE OWL ontology for the interoperability of linguistic datasets on the Web, J. McCrae, P. Labropoulou, J. Gracia, M. Villegas, V. Rodriguez-Doncel and P. Cimiano, in Gandon, F. et al. (Eds.), ESWC 2015 Satellite Events, LNCS9341, ISBN 978-3-319-25639-9, pp. 271-282, Springer (2015)
+- RDF Metadata Registry of Language Resources in Spain E. Montiel-Ponsoda, V. Rodríguez-Doncel, J. Gracia, in MetaForum, Brussels Nov. 2017(2017)
+- Reconciling Heterogeneous Descriptions of Language Resources, J. McCrae, P. Cimiano, L. Matteis, R. Navigli, V. Rodriguez-Doncel, D. Vila-Suero, J. Gracia, A. Abele, G. Vulcu and P. Buitelaar in Proc. of the 4th Workshop on Linked Data in Linguistics: Resources and Applications, colocated with ACL-IJCNPL. pp. 39-48. (2015)
 
 
 To search: 
