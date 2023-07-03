@@ -34,6 +34,9 @@ Any papers regarding licensing
 - from the point of view of repos/infras
 - from the point of view of licensing issues with regard mainly of open data (e.g. legal perspectives)
 
+Rodríguez-Doncel, V., Labropoulou, P., Gkirtzou, K. (2022) Rights Management for Language Resources III Workshop INTELE, Madrid [https://doi.org/10.5281/zenodo.7140773]
+
+
 To search: 
 - resource-related venues (LREC, CLARIN, LDK, ...)
 - legal venues and journals???
