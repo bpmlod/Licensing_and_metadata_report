@@ -1,0 +1,239 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Services for licenses for language resources</title>
+    <meta charset="utf-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="favicon.png">         
+    <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.4/paper/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>    
+    <link rel="stylesheet" href="ladda-themeless.min.css">
+    <script src="spin.min.js"></script>
+    <script src="ladda.min.js"></script>    
+  </head>
+  <body>
+<nav class="navbar navbar-inverse"> <!-- navbar-inverse -->
+  <div class="container-fluid">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="index.html"><span class="glyphicon glyphicon-home"></span></a>
+    </div>
+    <div>
+      <ul class="nav navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">License list</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="sparql.html">SPARQL</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="dump.html">Data dump</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="service.html">Service</a>
+            </li>
+      </ul>
+        
+    </div>
+  </div>
+</nav>      
+      
+      
+    <div class="container">
+	<div class="col-md-1">
+	</div>
+	<div class="col-md-10">
+	</div>
+        
+  <div class="well">
+          <!-- <img src="favicon.png" align="left" style="padding-right: 5px;">-->
+      <h3>Transformation of Metashare catalog entries</h3>  
+      <p>This webpage demonstrates the transformation of language resource catalog entries from/to various forms</p> 
+  </div>
+    <div id="PGN2RDF"> <!-- method="post" role="form"  action="/RDFChess/pgn2rdf" -->
+        <form  class="form-horizontal" >
+            <div class="form-group">
+                <div class="col-xs-5"><textarea style="border:1px solid black;font-family:monospace;line-height:1.1em;font-size:0.9em;" class="form-control" rows="15" id="pgn" name="pgn"></textarea></div>
+                <div class="col-xs-2">
+                    <center>
+                        <a id="boton1" class="btn btn-primary ladda-button" data-style="zoom-in" href="javascript: transform()"><span class="ladda-label">XML to RDF</span><span class="glyphicon glyphicon-chevron-right"></span></a>
+                        <p>Metashare XML > RDF</p>
+                    </center>
+                    <center>
+                        <a id="boton3" class="btn btn-primary ladda-button" data-style="zoom-in" href="javascript: transformodrl()"><span class="ladda-label">XML to ODRL</span><span class="glyphicon glyphicon-chevron-right"></span></a>
+                        <p>Metashare XML > ODRL</p>
+                    </center>
+                    <center>
+                        <a id="boton2" class="btn btn-primary ladda-button" data-style="zoom-in" href="javascript: validate()"><span class="ladda-label">Validate</span><span class="glyphicon glyphicon-chevron-right"></span></a>
+                        <p>Validate</p>
+                    </center>
+                </div>
+                <div class="col-xs-5"><textarea style="border:1px solid black;font-family:monospace;line-height:1.1em;font-size:0.9em;" readonly class="form-control" rows="15" id="rdf" name="rdf"></textarea>
+<!--                    <div class="control-group">
+                    <a id="boton3" class="btn btn-primary ladda-button" data-style="zoom-in" href="javascript: submitform3()"><span class="ladda-label">Upload </span><span class="glyphicon glyphicon-upload"></span></a>                        
+                    <a id="boton4" class="btn btn-primary ladda-button" data-style="zoom-in" href="javascript: submitform4()"><span class="ladda-label">Expand </span><span class="glyphicon glyphicon-resize-full"></span></a>                        
+                    </div>
+   -->             
+                </div>
+            </div>
+         </form>           
+        </div>
+	<div class="col-md-1">
+	</div>        
+    </div>    
+    
+        
+ <footer class="navbar-fixed-bottom" style="background-color: #fff;font-size: 12px;">
+  <center>
+     <hr style="margin:0px;"> 
+       <table style="line-height:1.3em;">
+           
+        <tr>
+         <td width=50% style="border: 1; padding-right: 2em; padding-left: 2em;">
+           <table style="font-size:small;">
+              <tr><td width="55px"><img src="eu.jpg" width=50></td>
+                  <td>This project has received funding from the European Union's Horizon 2020 research and innovation programme under grant  agreement No 825182: <a href="https://pret-a-llod.eu/">Prêt-à-LLOD</a> and the COST Action "<a href="https://nexuslinguarum.eu/">NexusLinguarum</a>" (CA18209)<img src="nexus.png" width=20><img src="pretallod.jpg" width=50> </td></tr>
+         </table>
+        </td>
+         <td>
+          <table style="font-size:small;">
+             <tr>
+                 <td width="120" ><img src="Logo_OEG.gif" width=40><img src="fi.jpg" width=32><img src="upm.jpg" width=40><br/>
+                <img src="ilsp.png" width=30><img src="athenarc.png" width=70>
+                 </td>
+                 
+                 <td style="margin-right:20px;">This service was developed in Athens in July 2021 by the <a href="https://www.ilsp.gr/en/home-2/">Institute of Language and Speech Processing</a> (AthenaRC) and the 
+    <a href="http://www.oeg-upm.net">Ontology Engineering Group</a> (Universidad Politécnica de Madrid). See also the related <a href="https://rdflicense.linkeddata.es/swagger-ui.html">API</a>
+               </td>
+             </tr>
+          </table>
+        </td>
+      </tr>
+   </table>
+<!--   <hr>
+    The content in these pages is published under <a rel="license" href="http://purl.org/NET/rdflicense/cc-by4.0">Creative Commons Attribution 4.0 Unported License</a> -->
+  </center>
+</footer>
+      
+<!--      <div id="footer">
+      <div class="container">
+          <hr/>
+          <center> <p class="muted credit">Developed in Athens in July 2021 by the Institute of Speech (AthenaRC) and the Language Processing and Ontology Engineering Group (UPM)</p></center>
+      </div>
+    </div> -->
+    
+    
+    <script>
+     $(document).ready(function() {
+        var partida= "<xml> blah blah blah </xml>";
+        document.getElementById('pgn').value= partida;
+        /* $.getJSON('/pgn2rdf', function(data) {
+        $('#result').html("Hello, " + data.name);
+      });*/
+    });
+    </script>
+    
+<script type="text/javascript">
+
+//xml>rdf
+async function transform()
+{
+    console.info("transform");
+    var l = Ladda.create(document.getElementById("boton1"));
+    l.start();    
+    var texto = document.getElementById("pgn").value;
+    const response = await fetch("/xml2rdf", {method: 'POST', body: texto});
+    const jr = await response.json();    
+    console.log(jr.transformation);
+    if (jr.valid===true)
+        document.getElementById("rdf").value = jr.transformation;
+    else
+        document.getElementById("rdf").value = "error";
+    l.stop();
+}
+//enrich
+async function transformodrl()
+{
+    console.info("transform");
+    var l = Ladda.create(document.getElementById("boton3"));
+    l.start();    
+    var texto = document.getElementById("pgn").value;
+    const response = await fetch("/xml2odrl", {method: 'POST', body: texto});
+    const jr = await response.json();    
+    console.log(jr.transformation);
+    if (jr.valid===true)
+        document.getElementById("rdf").value = jr.transformation;
+    else
+        document.getElementById("rdf").value = "error";
+    l.stop();
+}
+//translate
+async function validate()
+{
+    console.info("validate");
+    var l = Ladda.create(document.getElementById("boton2"));
+    l.start();    
+    var texto = document.getElementById("pgn").value;
+    const response = await fetch("/validate", {method: 'POST', body: texto});
+    const jr = await response.json();    
+    document.getElementById("rdf").value = "Valid: " + jr.valid +"\n"+ jr.reason;
+    l.stop();
+}
+
+//upload
+function submitform3()
+{
+    console.info("Starting the upload action");
+    var l = Ladda.create(document.getElementById("boton3")); 
+    l.start();    
+    var http = new XMLHttpRequest();
+    var rdf = document.getElementById("rdf").value;
+    var pgnencoded = encodeURI(rdf);
+    console.info(rdf);
+    var params = "pgn=" + pgnencoded+"&action=upload";
+    http.open("POST", "/rdfchess/pgn2rdf", true); //true
+    http.setRequestHeader("Content-type","application/x-www-form-urlencoded;charset=UTF-8");
+    http.setRequestHeader("Content-length", params.length);    
+    http.setRequestHeader("Connection", "close");
+    http.send(params);
+    http.onload = function() {
+         l.stop();
+        if (http.responseText) {
+            alert('Game uploaded as: ' + http.responseText);
+            window.open(http.responseText);
+        }
+        else
+        {
+            alert('No game has been uploaded');
+        }
+    }       
+}
+
+//expand
+function submitform4()
+{
+    var l = Ladda.create(document.getElementById("boton4"));
+    console.info("Starting the expansion action");
+    l.start();    
+    var http = new XMLHttpRequest();
+    var rdf = document.getElementById("rdf").value;
+    var pgnencoded = encodeURI(rdf);
+    console.info(rdf);
+    var params = "pgn=" + pgnencoded+"&action=expand";
+    http.open("POST", "/rdfchess/pgn2rdf", true); //true
+    http.setRequestHeader("Content-type","application/x-www-form-urlencoded;charset=UTF-8");
+    http.setRequestHeader("Content-length", params.length);    
+    http.setRequestHeader("Connection", "close");
+    http.send(params);
+    http.onload = function() {
+         document.getElementById("rdf").value = http.responseText;
+         l.stop();
+    }       
+}
+
+
+</script>    
+    
+    
+  </body>
+</html>

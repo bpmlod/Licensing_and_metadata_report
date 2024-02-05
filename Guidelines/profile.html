@@ -1,0 +1,1591 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>ODRL Profile for Policies of Language Resources and Technologies</title>
+		<script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
+		<script class="remove" src="config.js"></script>
+		
+	<!-- this is a draft edition -->	
+		
+	<!-- Also possible the style from view-source:https://www.w3.org/TR/vocab-org/  --> 
+	<!--view-source:https://www.w3.org/TR/vocab-duv/-->
+	<link rel="stylesheet" href="https://www.w3.org/TR/vocab-duv/localstyle.css"/>
+	<link rel="stylesheet" type="text/css" href="https://www.w3.org/StyleSheets/TR/2016/W3C-WG-NOTE"/>
+	<script src="http://www.w3.org/2013/ShEx/demobits/jquery.min.js" type= "text/javascript"></script>
+		
+	</head>
+	<body>
+		<section  id="abstract">
+			<p>This document presents the ODRL Profile for accessing Language Resources and Technologies (LRTs). This aims to support entities (repositories, infrastructures, archives, libraries, etc.) that enable the sharing of LRTs and act as intermediaries between LRT providers and consumers; from here on, we refer to them as "distributing entities". To this aim, it extends the <a href="https://www.w3.org/TR/odrl-model/">ODRL</a> model to define policies that express actions, rules, permissions and / or prohibitions related to sharing and processing of LRTs, and re-uses the <a href="http://w3id.org/meta-share/meta-share">META-SHARE</a> ontology to describe these policies and other access or rights related features.</p>
+			 
+		</section>
+		<section id='sotd'>
+
+		</section> 
+	
+		<section id="intro">
+		<h2>Introduction</h2> 
+		<h3>Objectives of the profile</h3>
+		<p>The current profile introduces elements that serve one of these purposes:</p>
+		<ul>
+<li>define actions performed by the above entities in order to provide consumers with access to LRTs</li>
+<li>define restrictions and actions required to implement control of the access to LRTs</li>
+<li>describe vocabulary elements needed to support such policies and/or common policy patterns</li>
+<li>describe vocabulary elements needed to support restrictions and authorization algorithms.</li>
+</ul>
+<p>To achieve these goals, the following requirements motivate our approach to extend the ODRL Vocabulary and Expression specification to define permissions and/or prohibitions associated with access granting operations of LRTs stored and distributed by the above entities, and to re-use and extend the META-SHARE vocabulary to express legal and technical concepts associated to these operations.</p>
+<p>R1. Support specifying user preferences as policies.</p>
+<p>R2. Incorporate vocabulary specifying or aligned to legal concepts.</p>
+<p>R3. Support specifying permissions and prohibitions typical of policies for LRTs.</p>
+<p>R4. Describe policies used to authorise access to data resources and data processing services.</p>
+<p>R5. Specify procedures and algorithms that can generate templates for policies typical of access to LRTs.</p>
+</section>
+
+<section id="overview">
+		<h3>Overview of the LRT distribution landscape</h3> 	
+<p>Sharing of Language Resources and Technologies (LRTs) is included in the mission of infrastructures and distribution bodies, such as the <a href="https://www.european-language-grid.eu/">European Language Grid</a>, <a href="https://www.clarin.eu/">CLARIN</a> and its national nodes (e.g. the <a href="https://www.clarin.gr/en">Greek CLARIN</a>), <a href="http://www.meta-share.eu/">META-SHARE</a>, <a href="http://www.elra.info/en/">ELRA-ELDA</a>. To this end, they create and maintain repositories, that enable the upload and storage of resources, their description in a structured form (metadata records), the search and browse of these resources through dedicated catalogue pages, as well as access to them, which can be performed, for instance, by the download of content files or execution of web services.
+These hosting/distributing entities (in short "distributing entities") act as intermediaries between providers and consumers of LRTs, both human and machines. Therefore, the requirements addressed in the current profile are set by the operational needs of the distributing entities, and indirectly by the needs of providers and consumers.</p>
+<p>To make clearer the requirements, we briefly outline here the landscape of LRTs with a focus on issues related to legal rights and access procedures.</a>
+<p>Under the term "Language Resource and Technology" we include any <b>resource</b> composed of linguistic material used in the construction, improvement and/or evaluation of language processing applications, but also, in a broader sense, in language and language-mediated research studies and applications. The term is used with a broader meaning, encompassing (a) data sets (textual, multimodal/multimedia and lexical data, grammars, language models, etc.) in machine readable form, and (b) tools/technologies/services used for their processing and management.</p>
+<p>LRTs are distributed and consumed with various forms: e.g., corpora may be distributed as content files to be downloaded, or made available through dedicated interfaces (e.g., a corpus workbench, or a SPARQL endpoint); tools/services may be distributed as content files containing the source code, as executable files to be downloaded and run locally, or as web services.</p>
+<p><b>Distributable forms</b> of an LRT may be accessed with the same access conditions or with different ones, which must be described in the form of a <b>policy statement</b>; this can range from a "standard" licence (e.g., one from the Creative Commons suite of licences) to a commercial licence with terms for the use of an individual resource.</p>
+<p>Entities that provide access to LRTs typically support one or more of the following <b>operations</b>:</p>
+<ul>
+<li>download of content files hosted in the repository</li>
+<li>execution of services deployed in the repository</li>
+<li>processing of data resources hosted in the repository with services deployed in the repository to create a new output resource (e.g., a corpus annotated with semantic information, a Machine Learning model trained on a corpus)</li>
+<li>combination of data resources hosted in the repository to create a new resource which includes all or parts of the original resource ("collection")</li>
+<li>combination of tools/services deployed in the repository to create a new composite tool or service ("workflow").</li>
+</ul>
+<p>The policy statements (licences and terms of use) that accompany a resource regulate its use by end-users but do not explicitly describe the <b>rules</b> (duties, restrictions, permissions) to be imposed by the entities when providing access to them. This set of rules may be inferred from the licensing conditions and needs to be calculated (semi-)automatically. One of the main objectives of this profile is to support the expression of these conditions, their automatic computation when possible and their representation in the form of authorisation statements and actions.</p>
+
+</section>
+<section id="reqsdetail">
+		<h3>Detailed requirements</h3> 	
+<p>Entities responsible for sharing LRTs must satisfy the user requirements of both LRT providers and consumers, as described in Appendix A. To achieve this goal, the following requirements are set:</p>
+<p>R1.	For granting access to an LRT,  the LRT must be released with a clear and accessible usage licence, which must be uniquely referred to in the formal description (metadata record) of the LRT (see also FAIR principle R1.1)</p>
+<p>a.	The licence must be described at the level of the distributable form of the LRT; different distributable forms may be released with different licences.</p>
+<p>R2.	The licence text must be available in a digital form and accessible to the end users so that they are aware of the terms under which they can use the LRT.</p>
+<p>R3.	The formal description of the licence should include metadata elements (names, broad usage conditions) that support findability of the LRT.</p>
+<p>R4.	The formal description of the licence should be machine actionable, i.e. include terms and indications that facilitate computational agents to perform actions that enable access to LRTs according to its licensing conditions. More precisely, it must include at least those terms that the entities granting access can use to restrict access to LRTs; such restrictions are typically based on user type, billing model, soliciting consent by users, tracking of users, monitoring of usage, etc.</p>
+<p>a.	For data resources, access may be limited to download and/or processing based on user type (e.g., for academic users only, for members of a group), following payment, or deposition of a research plan, etc.</p>
+<p>b.	For services, in addition, access may be limited and/or billed based on a count of specific units (e.g., count of API requests, characters to be processed, audio/video seconds to be processed) for a limited time period (e.g., on a weekly basis)</p>
+<p>c.	Entities granting end users access to an LRT must ensure they grant such access in accordance with its licensing conditions to the extent that these can be controlled by them; licensing conditions that cannot be controlled by them remain at the end-user's responsibility/liability.</p>
+<p>R5.	To allow combination of LRTs or processing of LRTs, their licensing conditions must be compatible and allow combination or processing actions; these permissions should be included in the formal description of the licences.</p>
+<p>R6.	The formal description of the LRT should include elements that may help resolve issues related to rights and access.</p>
+</section>
+
+		<section id="conventions">
+				<h2>Document Conventions</h2>
+					<p>Within this document, the following namespace prefix bindings are used:</p>
+    <table class="def">
+        <tbody>
+          <tr>
+            <th>Prefix</th>
+            <th>Namespace</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td>odrl</td>
+            <td>http://www.w3.org/ns/odrl/2/</td>
+            <td>ODRL Vocabulary</td>
+          </tr>
+          <tr>
+            <td>rdf</td>
+            <td>http://www.w3.org/1999/02/22-rdf-syntax-ns#</td>
+            <td>[[rdf11-concepts]]</td>
+          </tr>
+          <tr>
+            <td>rdfs</td>
+            <td>http://www.w3.org/2000/01/rdf-schema#</td>
+            <td>[[rdf-schema]]</td>
+          </tr>
+             <tr>
+            <td>owl</td>
+            <td>http://www.w3.org/2002/07/owl#</td>
+            <td>[[owl2-overview]]</td>
+          </tr>
+        <tr>
+            <td>xsd</td>
+            <td>http://www.w3.org/2001/XMLSchema#</td>
+            <td>[[xmlschema11-2]]</td>
+          </tr>
+              <tr>
+            <td>skos</td>
+            <td>http://www.w3.org/2004/02/skos/core#</td>
+            <td>[[skos-reference]]</td>
+          </tr>
+          <tr>
+            <td>dcterms</td>
+            <td>http://purl.org/dc/terms/</td>
+            <td>[[dcterms]]</td>
+          </tr>
+            <tr>
+            <td>vcard</td>
+            <td>http://www.w3.org/2006/vcard/ns#</td>
+            <td>[[vcard-rdf]]</td>
+          </tr>
+          <tr>
+            <td>foaf</td>
+            <td>http://xmlns.com/foaf/0.1/</td>
+            <td>[[foaf]]</td>
+          </tr>
+         
+          <tr>
+            <td>schema</td>
+            <td>http://schema.org/</td>
+            <td><a href="http://schema.org/">schema.org</a></td>
+          </tr>
+			
+			 <tr>
+            <td>cc</td>
+            <td>https://creativecommons.org/ns#</td>
+            <td><a href="https://creativecommons.org/ns#">creativecommons.org</a></td>
+          </tr>
+    
+			 <tr>
+            <td>ms</td>
+            <td>http://w3id.org/meta-share/meta-share</td>
+            <td></td>
+          </tr>
+
+			 <tr>
+            <td>ex</td>
+            <td>http://example.com/ns#</td>
+            <td></td>
+          </tr>
+         
+        </tbody>
+      </table>
+
+    </section>   				
+
+		
+		
+		<!--<form id="langOptions" action="#">View as: <label><input name="presLang" value="turtle" checked="checked" type="radio">Turtle (press 't')</label>
+      <label><input name="presLang" value="json-ld" type="radio">JSON-LD
+          (press 'j')</label> . </form>-->
+		  
+
+<section id="spec">
+<h2>Profile specification</h2>
+<h3>Entities</h3>
+The current specification focuses on three classes taken from the <a href="http://w3id.org/meta-share/meta-share">META-SHARE</a> vocabulary: <code>Resource</code>, <code>Distribution</code> and <code>LicenceTerms</code>. For the first two classes, we reuse the META-SHARE vocabulary and include here only those properties that are of interest to this specification. In addition, the <code>LicenceTerms</code> is further represented as a <code>policy</code> in accordance with the ODRL model. 
+
+<section id="resources">
+<h4>Resources</h4>
+A distinction is made between the <em>language resource / technology</em>, as the object created and described at an abstract level, and its <em>distributable form</em>, i.e., the form as packaged, distributed and consumed by end users. Following the <a href="https://www.w3.org/TR/vocab-dcat-2/">DCAT</a> terminology, the former is represented with the class <code>LanguageResource</code> and the latter as <code>DatasetDistribution</code> and <code>SoftwareDistribution</code>.
+
+            <section data-dfn-for="LanguageResource">
+                <h2><dfn>LanguageResource</dfn></h2>
+                <table class="def propdef">
+                    <tbody>
+                        <tr>
+                            <th>Definition:</th><td>A resource composed of linguistic material used in the construction, improvement and/or evaluation of language processing applications, but also, in a broader sense, in language and language-mediated research studies and applications; the term is used with a broader meaning, encompassing (a) data sets (textual, multimodal/multimedia and lexical data, grammars, language models, etc.) in machine readable form, and (b) tools/technologies/services used for their processing and management.</td>
+                        </tr>
+						<tr>
+                            <th>Label:</th><td>Language Resource / Technology</td>
+                        </tr><tr>
+                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/LanguageResource">http://w3id.org/meta-share/meta-share/LanguageResource</a></td>
+                        </tr><tr>
+                            <th style="white-space:nowrap;">Sub-class Of:</th><td><a href="https://www.w3.org/TR/rdf-schema/#ch_resource">rdfs:Resource</a>, <a href="http://www.w3.org/ns/dcat#Resource">dcat:Resource</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+			
+            <section data-dfn-for="Corpus">
+                <h2><dfn>Corpus</dfn></h2>
+                <table class="def propdef">
+                    <tbody>
+                        <tr>
+                            <th>Definition:</th><td>A structured collection of pieces of data (textual, audio, video, multimodal/multimedia, etc.) typically of considerable size and selected according to criteria external to the data (e.g., size, type of language, type of text producers or expected audience, etc.) to represent as comprehensively as possible the object of study.</td>
+                        </tr>
+						<tr>
+                            <th>Label:</th><td>Corpus</td>
+                        </tr><tr>
+                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/Corpus">http://w3id.org/meta-share/meta-share/Corpus</a></td>
+                        </tr><tr>
+                            <th style="white-space:nowrap;">Sub-class Of:</th><td><a href="http://w3id.org/meta-share/meta-share/LanguageResource">ms:LanguageResource</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section data-dfn-for="LexicalConceptualResource">
+                <h2><dfn>Lexical/Conceptual Resource</dfn></h2>
+                <table class="def propdef">
+                    <tbody>
+                        <tr>
+                            <th>Definition:</th><td>A resource organised on the basis of lexical or conceptual entries (lexical items, terms, concepts, etc.) with their supplementary information (e.g., grammatical, semantic, statistical information, etc.).</td>
+                        </tr>
+						<tr>
+                            <th>Label:</th><td>Lexical/Conceptual Resource</td>
+                        </tr><tr>
+                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/LexicalConceptualResource">http://w3id.org/meta-share/meta-share/LexicalConceptualResource</a></td>
+                        </tr><tr>
+                            <th style="white-space:nowrap;">Sub-class Of:</th><td><a href="http://w3id.org/meta-share/meta-share/LanguageResource">ms:LanguageResource</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section data-dfn-for="LanguageDescription">
+                <h2><dfn>Language description</dfn></h2>
+                <table class="def propdef">
+                    <tbody>
+                        <tr>
+                            <th>Definition:</th><td>A resource that describes a language or some aspect(s) of a language via a systematic documentation of linguistic structures.</td>
+                        </tr>
+						<tr>
+                            <th>Label:</th><td>Language description</td>
+                        </tr><tr>
+                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/LanguageDescription">http://w3id.org/meta-share/meta-share/LanguageDescription</a></td>
+                        </tr><tr>
+                            <th style="white-space:nowrap;">Sub-class Of:</th><td><a href="http://w3id.org/meta-share/meta-share/LanguageResource">ms:LanguageResource</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section data-dfn-for="ToolService">
+                <h2><dfn>Tool/Service</dfn></h2>
+                <table class="def propdef">
+                    <tbody>
+                        <tr>
+                            <th>Definition:</th><td>A tool/service/any piece of software that performs language processing and/or any Language Technology related operation.</td>
+                        </tr>
+						<tr>
+                            <th>Label:</th><td>Tool/Service</td>
+                        </tr><tr>
+                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/ToolService">http://w3id.org/meta-share/meta-share/ToolService</a></td>
+                        </tr><tr>
+                            <th style="white-space:nowrap;">Sub-class Of:</th><td><a href="http://w3id.org/meta-share/meta-share/LanguageResource">ms:LanguageResource</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+</section>
+
+<section id="resourceProp">
+<h4>Resource properties</h4>
+<p>The following properties address R6, i.e. can help determine and/or resolve rights and access issues.<p>
+<ul>
+<li>identification of the IPR holder(s): <code>resourceProvider</code>, <code>iprHolder</code></li>
+<li>identification of sources of potential need for restricted licences: <code>personalDataIncluded</code>, <code>personalDataDetails</code>, <code>sensitiveDataIncluded</code>, <code>sensitiveDataDetails</code>, <code>anonymized</code>, <code>anonymizationDetails</code>.</li>
+</ul>
+
+            <section data-dfn-for="resourceProvider">
+                <h2><dfn>resourceProvider</dfn></h2>
+                <table class="def propdef">
+                    <tbody>
+                        <tr>
+                            <th>Definition:</th><td>The person/organization responsible for providing, curating, maintaining and making available (publishing) the resource</td>
+                        </tr>
+						<tr>
+                            <th>Label:</th><td>resource provider</td>
+                        </tr><tr>
+                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/resourceProvider">http://w3id.org/meta-share/meta-share/resourceProvider</a></td>
+                        </tr>
+						<tr>
+                                <th>Domain:</th><td><a>LanguageResource</a></td>
+                            </tr><tr>
+                                <th>Range:</th><td><a href="http://xmlns.com/foaf/0.1/Agent">foaf:Agent</a></td>
+                            </tr>
+                    </tbody>
+                </table>
+            </section>
+
+
+
+            <section data-dfn-for="iprHolder">
+                <h2><dfn>IPR holder</dfn></h2>
+                <table class="def propdef">
+                    <tbody>
+                        <tr>
+                            <th>Definition:</th><td>A person or an organization who holds the full Intellectual Property Rights (Copyright, trademark, etc.) that subsist in the resource. The IPR holder could be different from the creator that may have assigned the rights to the IPR holder (e.g., an author as a creator assigns her rights to the publisher who is the IPR holder) and the distributor that holds a specific licence (i.e. a permission) to distribute the work via a specific distributor.</td>
+                        </tr>
+						<tr>
+                            <th>Label:</th><td>IPR holder</td>
+                        </tr><tr>
+                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/iprHolder">http://w3id.org/meta-share/meta-share/iprHolder</a></td>
+                        </tr>
+						<tr>
+                                <th>Domain:</th><td><a>LanguageResource</a></td>
+                            </tr><tr>
+                                <th>Range:</th><td><a href="http://xmlns.com/foaf/0.1/Agent">foaf:Agent</a></td>
+                            </tr>
+                    </tbody>
+                </table>
+            </section>
+
+           <section data-dfn-for="pesonalDataIncluded">
+                <h2><dfn>pesonalDataIncluded</dfn></h2>
+                <table class="def propdef">
+                    <tbody>
+                        <tr>
+                            <th>Definition:</th><td>Specifies whether the language resource contains personal data (mainly in the sense falling under the GDPR)</td>
+                        </tr>
+						<tr>
+                            <th>Label:</th><td>Pesonal data included</td>
+                        </tr><tr>
+                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/personalDataIncluded">http://w3id.org/meta-share/meta-share/personalDataIncluded</a></td>
+                        </tr>
+						<tr>
+                                <th>Domain:</th><td><a>LanguageResource</a></td>
+                            </tr><tr>
+                                <th>Range:</th><td>xs:boolean</td>
+                            </tr>
+                    </tbody>
+                </table>
+            </section>
+
+           <section data-dfn-for="pesonalDataDetails">
+                <h2><dfn>pesonalDataDetails</dfn></h2>
+                <table class="def propdef">
+                    <tbody>
+                        <tr>
+                            <th>Definition:</th><td>If the resource includes personal data, this field can be used for entering more information, e.g., whether special handling of the resource is required (e.g., anonymization, further request for use, etc.)</td>
+                        </tr>
+						<tr>
+                            <th>Label:</th><td>Pesonal data details</td>
+                        </tr><tr>
+                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/personalDataDetails">http://w3id.org/meta-share/meta-share/personalDataDetails</a></td>
+                        </tr>
+						<tr>
+                                <th>Domain:</th><td><a>LanguageResource</a></td>
+                            </tr><tr>
+                                <th>Range:</th><td>rdf:langString</td>
+                            </tr>
+                    </tbody>
+                </table>
+            </section>
+
+           <section data-dfn-for="sensitiveDataIncluded">
+                <h2><dfn>sensitiveDataIncluded</dfn></h2>
+                <table class="def propdef">
+                    <tbody>
+                        <tr>
+                            <th>Definition:</th><td>Specifies whether the language resource contains sensitive data (mainly in the sense falling under the GDPR)</td>
+                        </tr>
+						<tr>
+                            <th>Label:</th><td>Sensitive data included</td>
+                        </tr><tr>
+                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/sensitiveDataIncluded">http://w3id.org/meta-share/meta-share/sensitiveDataIncluded</a></td>
+                        </tr>
+						<tr>
+                                <th>Domain:</th><td><a>LanguageResource</a></td>
+                            </tr><tr>
+                                <th>Range:</th><td>xs:boolean</td>
+                            </tr>
+                    </tbody>
+                </table>
+            </section>
+
+           <section data-dfn-for="sensitiveDataDetails">
+                <h2><dfn>sensitiveDataDetails</dfn></h2>
+                <table class="def propdef">
+                    <tbody>
+                        <tr>
+                            <th>Definition:</th><td>If the resource includes sensitive data, this field can be used for entering more information, e.g., whether special handling of the resource is required (e.g., anonymization, further request for use, etc.)</td>
+                        </tr>
+						<tr>
+                            <th>Label:</th><td>Sensitive data details</td>
+                        </tr><tr>
+                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/sensitiveDataDetails">http://w3id.org/meta-share/meta-share/sensitiveDataDetails</a></td>
+                        </tr>
+						<tr>
+                                <th>Domain:</th><td><a>LanguageResource</a></td>
+                            </tr><tr>
+                                <th>Range:</th><td>rdf:langString</td>
+                            </tr>
+                    </tbody>
+                </table>
+            </section>
+
+           <section data-dfn-for="anonymized">
+                <h2><dfn>anonymized</dfn></h2>
+                <table class="def propdef">
+                    <tbody>
+                        <tr>
+                            <th>Definition:</th><td>Indicates whether the language resource has been anonymized</td>
+                        </tr>
+						<tr>
+                            <th>Label:</th><td>anonymized</td>
+                        </tr><tr>
+                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/anonymized">http://w3id.org/meta-share/meta-share/anonymized</a></td>
+                        </tr>
+						<tr>
+                                <th>Domain:</th><td><a>LanguageResource</a></td>
+                            </tr><tr>
+                                <th>Range:</th><td>xs:boolean</td>
+                            </tr>
+                    </tbody>
+                </table>
+            </section>
+
+           <section data-dfn-for="anonymizationDetails">
+                <h2><dfn>anonymizationDetails</dfn></h2>
+                <table class="def propdef">
+                    <tbody>
+                        <tr>
+                            <th>Definition:</th><td>If the resource has been anonymized, this field can be used for entering more information, e.g., tool or method used for the anonymization, by whom it has been performed, whether there was any check of the results, etc.)</td>
+                        </tr>
+						<tr>
+                            <th>Label:</th><td>Anonymization details</td>
+                        </tr><tr>
+                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/anonymizationDetails">http://w3id.org/meta-share/meta-share/anonymizationDetails</a></td>
+                        </tr>
+						<tr>
+                                <th>Domain:</th><td><a>LanguageResource</a></td>
+                            </tr><tr>
+                                <th>Range:</th><td>rdf:langString</td>
+                            </tr>
+                    </tbody>
+                </table>
+            </section>
+			
+			</section>
+<section id="distributions">
+<h4>DatasetDistribution and SoftwareDistribution</h4>
+<p>These are subclasses of <code>dcat:Distribution</code> catering for the distict features of data and software resources, such as different distribution mediums (service or source code for software, content files or forms accessible via interfaces for data resources), descriptive features (size for text, audio, video, image files, technical requirements on the input / output of software).</p>
+
+            <section data-dfn-for="DatasetDistribution">
+                <h2><dfn>DatasetDistribution</dfn></h2>
+                <table class="def propdef">
+                    <tbody>
+                        <tr>
+                            <th>Definition:</th><td>Any form with which a dataset is distributed, such as a downloadable form in a specific format (e.g., spreadsheet, plain text, etc.) or an API with which it can be accessed</td>
+                        </tr>
+						<tr>
+                            <th>Label:</th><td>Dataset Distribution</td>
+                        </tr><tr>
+                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/DatasetDistribution">http://w3id.org/meta-share/meta-share/DatasetDistribution</a></td>
+                        </tr><tr>
+                            <th style="white-space:nowrap;">Sub-class Of:</th><td><a href="https://www.w3.org/ns/dcat#Distribution">dcat:Distribution</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+			
+		
+            <section data-dfn-for="SoftwareDistribution">
+                <h2><dfn>SoftwareDistribution</dfn></h2>
+                <table class="def propdef">
+                    <tbody>
+                        <tr>
+                            <th>Definition:</th><td>Any form with which software is distributed (e.g., web services, executable or code files, etc.)</td>
+                        </tr>
+						<tr>
+                            <th>Label:</th><td>Software Distribution</td>
+                        </tr><tr>
+                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/SoftwareDistribution">http://w3id.org/meta-share/meta-share/SoftwareDistribution</a></td>
+                        </tr><tr>
+                            <th style="white-space:nowrap;">Sub-class Of:</th><td><a href="https://www.w3.org/ns/dcat#Distribution">dcat:Distribution</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+</section>
+<section id="distributionProp">
+<h4>Distribution properties</h4>
+<p>Properties of the <code>Distribution</code> subclasses include:</p>
+<ul>
+<li>linking to policy documents regulating the access conditions, addressing R1 and R1a: <code>licenceTerms</code> (see examples 1 - 6) and <code>accessRights</code>
+<li>describing restrictions related to the billing module, time restrictions or membership to a group and addressing R4: <code>cost</code>, <code>membershipInstitution</code>, <code>availabilityStartDate</code>, <code>availabilityEndDate</code>. These are used in combination with the <code>licenceTerms</code> to refine licences with additional restrictions. (see examples 5 - 6).
+</li>
+</ul>
+
+<p>The property <code>licenceTerms</code> addresses R1 and R1a. It is the property used for linking LRTs to the policy statements (class <code>LicenceTerms</code>) and it is mandatory in order to ensure legitimate access by end-users (see examples 1 - 5). Normally, each >Distribution</code> must have one licence attached. Multiple licences are also possible for the same <code>Distribution</code> in the following cases:</p>
+<ul>
+<li>a data resource (e.g. a lexicon or corpus) which is accessible with an interface; in this case, the data and the interface may be available with different licences (see example 3)</li>
+<li>a collection composed of subsets released with different licences; for instance, a corpus or lexicon created with the same principles, but released with different conditions for different languages (see example 4).</li>
+</ul>
+<p>In both cases, the access procedure must take into account all licences attached to this <code>Distribution</code>.</p>
+<p>LRTs whose licence is not identified in the formal description may be included in a catalogue for information purposes only, clearly marked as such and described with at least an access statement which is added with the <code>accessRights</code> property.</p>
+
+            <section data-dfn-for="licenceTerms">
+                <h2><dfn>licenceTerms</dfn></h2>
+                <table class="def propdef">
+                    <tbody>
+                        <tr>
+                            <th>Definition:</th><td>Links the distribution (distributable form) of a language resource to the licence or terms of use/service (a specific legal document) with which it is distributed</td>
+                        </tr>
+						<tr>
+                            <th>Label:</th><td>licence</td>
+                        </tr><tr>
+                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/licenceTerms">http://w3id.org/meta-share/meta-share/licenceTerms</a></td>
+                        </tr>
+						<tr>
+                                <th>Domain:</th><td>Union of <a href="http://w3id.org/meta-share/meta-share/DatasetDistribution">ms:DatasetDistribution</a> and <a href="http://w3id.org/meta-share/meta-share/SoftwareDistribution">ms:SoftwareDistribution</a></td>
+                            </tr><tr>
+                                <th>Range:</th><td>ms:LicenceTerms</td>
+                            </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section data-dfn-for="accessRights">
+                <h2><dfn>accessRights</dfn></h2>
+                <table class="def propdef">
+                    <tbody>
+                        <tr>
+                            <th>Definition:</th><td>Specifies the rights for accessing the distributable form(s) of a language resource (preferrably in accordance to a formalised vocabulary)</td>
+                        </tr>
+						<tr>
+                            <th>Label:</th><td>access rights</td>
+                        </tr><tr>
+                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/accessRights">http://w3id.org/meta-share/meta-share/accessRights</a></td>
+                        </tr>
+						<tr>
+                                <th>Domain:</th><td>Union of <a href="http://w3id.org/meta-share/meta-share/DatasetDistribution">ms:DatasetDistribution</a> and <a href="http://w3id.org/meta-share/meta-share/SoftwareDistribution">ms:SoftwareDistribution</a></td>
+                            </tr><tr>
+                                <th>Range:</th><td>ms:AccessRightsStatement</td>
+                            </tr>
+							<tr>
+                                <th>Note:</th><td>The property is mandatory when no licence is available for a resource and its intended use is for resources catalogued for information only purposes. For the <code>AccessRightsStatement</code>, it is recommended to use a term from standardized vocabularies, such as the <a href="https://vocabularies.coar-repositories.org/access_rights/">Open COAR Access Rights vocabulary</a> or the statements provided by <a href="https://rightsstatements.org/en/">RightsStatements.org</a></td>
+                            </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section data-dfn-for="cost">
+                <h2><dfn>cost</dfn></h2>
+                <table class="def propdef">
+                    <tbody>
+                        <tr>
+                            <th>Definition:</th><td>Introduces the cost for accessing a resource or the overall budget of a project, formally described as a set of amount and currency unit</td>
+                        </tr>
+						<tr>
+                            <th>Label:</th><td>cost</td>
+                        </tr><tr>
+                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/cost">http://w3id.org/meta-share/meta-share/cost</a></td>
+                        </tr>
+						<tr>
+                                <th>Domain:</th><td>Union of <a href="http://w3id.org/meta-share/meta-share/DatasetDistribution">ms:DatasetDistribution</a> and <a href="http://w3id.org/meta-share/meta-share/SoftwareDistribution">ms:SoftwareDistribution</a></td>
+                            </tr><tr>
+                                <th>Range:</th><td>ms:Cost (<code>ms:Cost</code> is formally represented using two properties, <code>amount</code> and <code>currency</code>.)</td>
+                            </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section data-dfn-for="membershipInstitution">
+                <h2><dfn>membershipInstitution</dfn></h2>
+                <table class="def propdef">
+                    <tbody>
+                        <tr>
+                            <th>Definition:</th><td>Introduces an institution with members that can benefit from specific conditions on the use of a resource (e.g. discount, unlimited access, etc.)</td>
+                        </tr>
+						<tr>
+                            <th>Label:</th><td>membership institution</td>
+                        </tr><tr>
+                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/membershipInstitution">http://w3id.org/meta-share/meta-share/membershipInstitution</a></td>
+                        </tr>
+						<tr>
+                                <th>Domain:</th><td>Union of <a href="http://w3id.org/meta-share/meta-share/DatasetDistribution">ms:DatasetDistribution</a> and <a href="http://w3id.org/meta-share/meta-share/SoftwareDistribution">ms:SoftwareDistribution</a></td>
+                            </tr><tr>
+                                <th>Range:</th><td>foaf:organization</td>
+                            </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section data-dfn-for="availabilityStartDate">
+                <h2><dfn>availabilityStartDate</dfn></h2>
+                <table class="def propdef">
+                    <tbody>
+                        <tr>
+                            <th>Definition:</th><td>Specifies the start date of availability of a resource - only for cases where a resource is available for a restricted time period.</td>
+                        </tr>
+						<tr>
+                            <th>Label:</th><td>availability start date</td>
+                        </tr><tr>
+                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/availabilityStartDate">http://w3id.org/meta-share/meta-share/availabilityStartDate</a></td>
+                        </tr>
+						<tr>
+                                <th>Domain:</th><td>Union of <a href="http://w3id.org/meta-share/meta-share/DatasetDistribution">ms:DatasetDistribution</a> and <a href="http://w3id.org/meta-share/meta-share/SoftwareDistribution">ms:SoftwareDistribution</a></td>
+                            </tr><tr>
+                                <th>Range:</th><td>xs:date</td>
+                            </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section data-dfn-for="availabilityEndDate">
+                <h2><dfn>availabilityEndDate</dfn></h2>
+                <table class="def propdef">
+                    <tbody>
+                        <tr>
+                            <th>Definition:</th><td>Specifies the end date of availability of a resource - only for cases where a resource is available for a restricted time period.</td>
+                        </tr>
+						<tr>
+                            <th>Label:</th><td>availability end date</td>
+                        </tr><tr>
+                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/availabilityEndDate">http://w3id.org/meta-share/meta-share/availabilityEndDate</a></td>
+                        </tr>
+						<tr>
+                                <th>Domain:</th><td>Union of <a href="http://w3id.org/meta-share/meta-share/DatasetDistribution">ms:DatasetDistribution</a> and <a href="http://w3id.org/meta-share/meta-share/SoftwareDistribution">ms:SoftwareDistribution</a></td>
+                            </tr><tr>
+                                <th>Range:</th><td>xs:date</td>
+                            </tr>
+                    </tbody>
+                </table>
+            </section>
+
+
+</section>
+<section id="policies">
+<h2>Policies (Licences and Terms of use/service)</h2>
+<h3>LicenceTerms</h3>
+<p>This class covers legal documents, i.e., licences and terms of use or service for data resources and software.</p>
+
+            <section data-dfn-for="LicenceTerms (capitalized)">
+                <h2><dfn>LicenceTerms (capitalized)</dfn></h2>
+                <table class="def propdef">
+                    <tbody>
+                        <tr>
+                            <th>Definition:</th><td>A legal document (licence or terms of use/service) with which the language resource is distributed</td>
+                        </tr>
+						<tr>
+                            <th>Label:</th><td>Licence</td>
+                        </tr><tr>
+                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/LicenceTerms">http://w3id.org/meta-share/meta-share/LicenceTerms</a></td>
+                        </tr><tr>
+                            <th style="white-space:nowrap;">Sub-class Of:</th><td><a href="https://www.w3.org/ns/dcat#Distribution">cc:License</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+			
+</section>
+<section id="policiesProp">
+<h3>Licence properties</h3>
+<p>The following set of properties addresses identification of the licence and access to the licence text (R2 and R3) are:</p> <code>name</code>, <code>short name</code>, <code>alternative title</code>, <code>URL</code> (where the licence text can be found), <code>logo</code>, <code>identifier</code>.</p>
+<p>The property <code>conditionOfUse</code> aims to encode the main conditions associated with the use of a LRT (e.g. non commercial use, use by academic users only, etc.) as described in R4a and R4b. These can also be represented as odrl properties (permission, prohibition, duty), but are also added as an object property for two reasons: (a) facilitating LRT providers with no or little prior experience of writing policies in ODRL; (b) supporting the implementation of a filter enhancing the discoverability of LRTs in a catalogue (R3). The class <code>ConditionOfUse</code> contains a set of instances that are typical of licences in the LRT domain.</p>
+<p>The object property <code>licenceCategory</code> addresses R4; i.e., it supports the encoding of terms that can be mapped to actions granting access to LRTs and the authorization procedures required for them. As with <code>conditionOfUse</code>, these can be mapped to ODRL rules and added to the RDF representations of a licence.</p> 
+<p>A set of such mappings has already been made for the typical cases in the LRT domain and is available <a href="#mappings">below</a>.<p>
+
+           <section data-dfn-for="licenceTermsName">
+                <h2><dfn>licenceTermsName</dfn></h2>
+                <table class="def propdef">
+                    <tbody>
+                        <tr>
+                            <th>Definition:</th><td>The name by which a legal document (e.g., licence, terms of use, terms of service) is known</td>
+                        </tr>
+						<tr>
+                            <th>Label:</th><td>licence name</td>
+                        </tr><tr>
+                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/licenceTermsName">http://w3id.org/meta-share/meta-share/licenceTermsName</a></td>
+                        </tr>
+						<tr>
+                                <th>Domain:</th><td><a href="http://w3id.org/meta-share/meta-share/LicenceTerms">ms:LicenceTerms</a></td>
+                            </tr><tr>
+                                <th>Range:</th><td>rdf:langString</td>
+                            </tr>
+							<tr>
+                                <th>Subproperty of:</th><td>dcterms:title</td>
+                            </tr>
+                    </tbody>
+                </table>
+            </section>
+
+           <section data-dfn-for="licenceTermsAlternativeName">
+                <h2><dfn>licenceTermsAlternativeName</dfn></h2>
+                <table class="def propdef">
+                    <tbody>
+                        <tr>
+                            <th>Definition:</th><td>Introduces an alternative name (other than the short name) used for a licence or terms of use</td>
+                        </tr>
+						<tr>
+                            <th>Label:</th><td>licence alternative name</td>
+                        </tr><tr>
+                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/licenceTermsAlternativeName">http://w3id.org/meta-share/meta-share/licenceTermsAlternativeName</a></td>
+                        </tr>
+						<tr>
+                                <th>Domain:</th><td><a href="http://w3id.org/meta-share/meta-share/LicenceTerms">ms:LicenceTerms</a></td>
+                            </tr><tr>
+                                <th>Range:</th><td>rdf:langString</td>
+                            </tr>
+							<tr>
+                                <th>Subproperty of:</th><td>dcterms:alternative</td>
+                            </tr>
+                    </tbody>
+                </table>
+            </section>
+
+           <section data-dfn-for="licenceTermsShortName">
+                <h2><dfn>licenceTermsShortName</dfn></h2>
+                <table class="def propdef">
+                    <tbody>
+                        <tr>
+                            <th>Definition:</th><td>Introduces the short name (abbreviation, acronym, etc.) used for a licence or terms of use document</td>
+                        </tr>
+						<tr>
+                            <th>Label:</th><td>licence short name</td>
+                        </tr><tr>
+                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/licenceTermsShortName">http://w3id.org/meta-share/meta-share/licenceTermsShortName</a></td>
+                        </tr>
+						<tr>
+                                <th>Domain:</th><td><a href="http://w3id.org/meta-share/meta-share/LicenceTerms">ms:LicenceTerms</a></td>
+                            </tr><tr>
+                                <th>Range:</th><td>rdf:langString</td>
+                            </tr>
+							<tr>
+                                <th>Subproperty of:</th><td>dcterms:alternative</td>
+                            </tr>
+                    </tbody>
+                </table>
+            </section>
+
+           <section data-dfn-for="licenceTermsURL">
+                <h2><dfn>licenceTermsURL</dfn></h2>
+                <table class="def propdef">
+                    <tbody>
+                        <tr>
+                            <th>Definition:</th><td>Links to the URL where the text of a licence/terms of use/service is found</td>
+                        </tr>
+						<tr>
+                            <th>Label:</th><td>licence URL</td>
+                        </tr><tr>
+                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/licenceTermsURL">http://w3id.org/meta-share/meta-share/licenceTermsURL</a></td>
+                        </tr>
+						<tr>
+                                <th>Domain:</th><td><a href="http://w3id.org/meta-share/meta-share/LicenceTerms">ms:LicenceTerms</a></td>
+                            </tr><tr>
+                                <th>Range:</th><td>xsd:anyURI</td>
+                            </tr>
+                    </tbody>
+                </table>
+            </section>
+
+           <section data-dfn-for="logo">
+                <h2><dfn>logo</dfn></h2>
+                <table class="def propdef">
+                    <tbody>
+                        <tr>
+                            <th>Definition:</th><td>Links to a symbol or graphic object used to identify an entity; please, add a URL with an image file</td>
+                        </tr>
+						<tr>
+                            <th>Label:</th><td>logo</td>
+                        </tr><tr>
+                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/logo">http://w3id.org/meta-share/meta-share/logo</a></td>
+                        </tr>
+						<tr>
+                                <th>Domain:</th><td><a href="http://w3id.org/meta-share/meta-share/LicenceTerms">ms:LicenceTerms</a></td>
+                            </tr><tr>
+                                <th>Range:</th><td>xsd:anyURI</td>
+                            </tr>
+                    </tbody>
+                </table>
+            </section>
+
+           <section data-dfn-for="identifier">
+                <h2><dfn>dct:identifier</dfn></h2>
+                <table class="def propdef">
+                    <tbody>
+                        <tr>
+                            <th>Definition:</th><td>Links to a symbol or graphic object used to identify an entity; please, add a URL with an image file</td>
+                        </tr>
+						<tr>
+                            <th>Label:</th><td>identifier</td>
+                        </tr><tr>
+                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/logo">http://w3id.org/meta-share/meta-share/logo</a></td>
+                        </tr>
+						<tr>
+                                <th>Domain:</th><td><a href="http://w3id.org/meta-share/meta-share/LicenceTerms">ms:LicenceTerms</a></td>
+                            </tr><tr>
+                                <th>Range:</th><td>ms:LicenceIdentifier ("A string used to uniquely identify a licence")</td>
+                            </tr>
+                            </tr><tr>
+                                <th>Usage note:</th><td>The <code>LicenceIdentifier</code> must be defined within a <code>LicenceIdentifierScheme</code>. The use of a standardized vocabulary, such as the <a href="https://spdx.dev/ids/">SPDX identifiers</a> is higly recommended.</td>
+                            </tr>
+                    </tbody>
+                </table>
+            </section>
+
+           <section data-dfn-for="conditionOfUse">
+                <h2><dfn>conditionOfUse</dfn></h2>
+                <table class="def propdef">
+                    <tbody>
+                        <tr>
+                            <th>Definition:</th><td>Links a licence with a specific condition/term of use imposed for accessing a language resource. It is an optional element and only to be taken as providing brief human readable information on the fact that the language resource is provided under a specific set of conditions. These correspond to the most frequently used conditions imposed by the licensor (via the specified licence). The proper exposition of all conditions and possible exceptions is to be found inside the licence text. Depositors should, hence, carefully choose the values of this field to match the licence chosen and users should carefully read that licence before using the language resource.</td>
+                        </tr>
+						<tr>
+                            <th>Label:</th><td>condition of use</td>
+                        </tr><tr>
+                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/conditionOfUse">http://w3id.org/meta-share/meta-share/conditionOfUse</a></td>
+                        </tr>
+						<tr>
+                                <th>Domain:</th><td><a href="http://w3id.org/meta-share/meta-share/LicenceTerms">ms:LicenceTerms</a></td>
+                            </tr><tr>
+                                <th>Range:</th><td>ms:ConditionOfUse ("A condition imposed via a specified licence on the use of a language resource (e.g., non-commercial use, no derivatives, etc.")</td>
+                            </tr>
+                            </tr><tr>
+                                <th>Usage note:</th><td>The <code>ConditionOfUse</code> class includes a list of individuals with the most common conditions imposed in the domain of LRTs.</td>
+                            </tr>
+                    </tbody>
+                </table>
+            </section>
+
+           <section data-dfn-for="licenceCategory">
+                <h2><dfn>licenceCategory</dfn></h2>
+                <table class="def propdef">
+                    <tbody>
+                        <tr>
+                            <th>Definition:</th><td>Categorises a licence according to a classification scheme</td>
+                        </tr>
+						<tr>
+                            <th>Label:</th><td>licence category</td>
+                        </tr><tr>
+                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/licenceCategory">http://w3id.org/meta-share/meta-share/licenceCategory</a></td>
+                        </tr>
+						<tr>
+                                <th>Domain:</th><td><a href="http://w3id.org/meta-share/meta-share/LicenceTerms">ms:LicenceTerms</a></td>
+                            </tr><tr>
+                                <th>Range:</th><td>ms:LicenceCategory ("A classification scheme for licences")</td>
+                            </tr>
+                            </tr><tr>
+                                <th>Usage note:</th><td>The <code>LicenceCategory</code> class includes a list of individuals that formalise the restrictions to be taken into account by hosting entities when giving access to LRTs and the type of actions that must or can be performed; for instance, whether users need to be authenticated, belong to a specific user type, whether the resource can be downloaded or processed, etc. For more information, see Section <a href="#Actions">Actions</a> and examples 7 - 12.</td>
+                            </tr>
+                    </tbody>
+                </table>
+            </section>
+
+
+</section>
+<section id="parties">
+<h2>Parties</h2>
+<h3>Party roles and types</h3>
+<p>With respect to the transactions of LRT distribution, the following roles can be identified:</p>
+<ul>
+<li>Resource providers</li>
+<li>Resource consumers (end users)</li>
+<li>Hosting/Distributing entities.</li>
+</ul>
+<p>For the scope of the current profile, these roles do not need to be formally represented, as the ODRL roles <code>odrl:assigner</code> and <code>odrl:assignee</code> suffice. </p>
+<p>In terms of legal status, distributing entities can only be organizations, resource providers can be both organizations and individuals, while resource consumers can be only individuals, affiliated or not to organizations. These can be described with any relevant vocabulary such as W3C vCard Ontology, FOAF Vocabulary enriched with META-SHARE and ODRL properties, as required.</p>
+</section>
+
+<section id="partyProps">
+<h3>Party properties</h3>
+<p>The only property specific to this profile is the <code>userType</code>, which distinguishes LRT consumers into commercial and academic ones. This is required because this distinction is related to restrictions on using an LRT or on the price or billing model of an LRT.</p>
+
+           <section data-dfn-for="userType">
+                <h2><dfn>userType</dfn></h2>
+                <table class="def propdef">
+                    <tbody>
+                        <tr>
+                            <th>Definition:</th><td>Used to identify the type of user of the resource (affiliated with a commercial vs. academic institution); it is usually associated with licensing or pricing conditions on the use of a resource</td>
+                        </tr>
+						<tr>
+                            <th>Label:</th><td>user type</td>
+                        </tr><tr>
+                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/userType">http://w3id.org/meta-share/meta-share/userType</a></td>
+                        </tr>
+						<tr>
+                                <th>Domain:</th><td>foaf:Agent</td>
+                            </tr><tr>
+                                <th>Range:</th><td>ms:UserType ("Classification type for users of a language resource; usually required for assessing the licensing or pricing policies for the use of the resource")</td>
+                            </tr>
+                            </tr><tr>
+                                <th>Usage note:</th><td>The <code>UserType</code> class lists two individuals, namely <code>academic</code> and <code>commercial</code>.</td>
+                            </tr>
+                    </tbody>
+                </table>
+            </section>
+
+
+</section>
+<section id="Actions">
+<h3>Actions</h3>
+<h4>Operations</h4>
+<p>To cover the operations performed in the context of this profile, the following concepts are used from the ODRL and META-SHARE vocabularies: <code>odrl:execute</code>, <code>odrl:Aggregate</code>, <code>ms:Download</code>, <code>ms:Process</code> and <code>ms:Combine</code>.</p>
+
+            <section data-dfn-for="Download">
+                <h2><dfn>Download</dfn></h2>
+                <table class="def propdef">
+                    <tbody>
+                        <tr>
+                            <th>Definition:</th><td>Download of a content file (with data or executable file) on one's local system</td>
+                        </tr>
+						<tr>
+                            <th>Label:</th><td>Download</td>
+                        </tr><tr>
+                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/Download">http://w3id.org/meta-share/meta-share/Download</a></td>
+                        </tr><tr>
+                            <th style="white-space:nowrap;">Sub-class Of:</th><td>odrl:Action</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section data-dfn-for="Process">
+                <h2><dfn>Process</dfn></h2>
+                <table class="def propdef">
+                    <tbody>
+                        <tr>
+                            <th>Definition:</th><td>To process a data resource with a language processing service (e.g. to create an annotated version, or to extract elements from it)</td>
+                        </tr>
+						<tr>
+                            <th>Label:</th><td>Process</td>
+                        </tr><tr>
+                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/Process">http://w3id.org/meta-share/meta-share/Process</a></td>
+                        </tr><tr>
+                            <th style="white-space:nowrap;">Sub-class Of:</th><td>odrl:Action</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section data-dfn-for="Combine">
+                <h2><dfn>Combine</dfn></h2>
+                <table class="def propdef">
+                    <tbody>
+                        <tr>
+                            <th>Definition:</th><td>Combine two or more resources of different resource types (e.g. a model and a tool/service) in order to deploy them together</td>
+                        </tr>
+						<tr>
+                            <th>Label:</th><td>Combine</td>
+                        </tr><tr>
+                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/Combine">http://w3id.org/meta-share/meta-share/Combine</a></td>
+                        </tr><tr>
+                            <th style="white-space:nowrap;">Sub-class Of:</th><td>odrl:Action</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+
+</section>
+<section id="Actions for constraints">
+<h3>Actions for Constraints</h3>
+<p>The following subclasses of <code>odrl:Action</code> are required in use with constraints on rules to describe common practices in the domain of LRT distribution: <code>SignIn</code>, <code>Authorize</code>, <code>SignLicence</code>, <code>Report</code>, <code>Deposit</code>.</p>
+
+            <section data-dfn-for="SignIn">
+                <h2><dfn>SignIn</dfn></h2>
+                <table class="def propdef">
+                    <tbody>
+                        <tr>
+                            <th>Definition:</th><td>To sign in a system or application</td>
+                        </tr>
+						<tr>
+                            <th>Label:</th><td>SignIn</td>
+                        </tr><tr>
+                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/SignIn">http://w3id.org/meta-share/meta-share/SignIn</a></td>
+                        </tr><tr>
+                            <th style="white-space:nowrap;">Sub-class Of:</th><td>odrl:Action</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section data-dfn-for="Authorize">
+                <h2><dfn>Authorize</dfn></h2>
+                <table class="def propdef">
+                    <tbody>
+                        <tr>
+                            <th>Definition:</th><td>To be formally allowed to access and make use of a resource</td>
+                        </tr>
+						<tr>
+                            <th>Label:</th><td>Authorize</td>
+                        </tr><tr>
+                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/Authorize">http://w3id.org/meta-share/meta-share/Authorize</a></td>
+                        </tr><tr>
+                            <th style="white-space:nowrap;">Sub-class Of:</th><td>odrl:Action</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section data-dfn-for="SignLicence">
+                <h2><dfn>SignLicence</dfn></h2>
+                <table class="def propdef">
+                    <tbody>
+                        <tr>
+                            <th>Definition:</th><td>The obligation of the assignee to sign a licence before being allowed to use a resource</td>
+                        </tr>
+						<tr>
+                            <th>Label:</th><td>SignLicence</td>
+                        </tr><tr>
+                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/SignLicence">http://w3id.org/meta-share/meta-share/SignLicence</a></td>
+                        </tr><tr>
+                            <th style="white-space:nowrap;">Sub-class Of:</th><td>odrl:Action</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+
+            <section data-dfn-for="Report">
+                <h2><dfn>Report</dfn></h2>
+                <table class="def propdef">
+                    <tbody>
+                        <tr>
+                            <th>Definition:</th><td>Give an account of an event related to the resource (e.g. a research plan, the use of the resource in a project or publication, etc.)</td>
+                        </tr>
+						<tr>
+                            <th>Label:</th><td>Report</td>
+                        </tr><tr>
+                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/Report">http://w3id.org/meta-share/meta-share/Report</a></td>
+                        </tr><tr>
+                            <th style="white-space:nowrap;">Sub-class Of:</th><td>odrl:Action</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section data-dfn-for="Deposit">
+                <h2><dfn>Deposit</dfn></h2>
+                <table class="def propdef">
+                    <tbody>
+                        <tr>
+                            <th>Definition:</th><td>The action of uploading a resource to a hosting entity (repository), e.g. for preservation purposes)</td>
+                        </tr>
+						<tr>
+                            <th>Label:</th><td>Deposit</td>
+                        </tr><tr>
+                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/Deposit">http://w3id.org/meta-share/meta-share/Deposit</a></td>
+                        </tr><tr>
+                            <th style="white-space:nowrap;">Sub-class Of:</th><td>odrl:Action</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+</section>
+<section id="Examples">
+<h2>Examples</h2>
+<h3>Examples of LRTs</h3>
+<pre class="example nohighlight turtle" title="A corpus with one distribution (downloadable files) with one licence" id="LR_oneLicence">
+ex:Resource1 a ms:Corpus ;
+  ms:distribution 
+    [ ms:datasetDistributionForm ms:downloadable 
+      dct:license &lt;http://purl.org/NET/rdflicense/cc-by4.0&gt;
+    ]
+</pre>
+
+<pre class="example nohighlight turtle" title="A corpus with two distributions (downloadable files and accessible with interface) with the same licence" id="LR_twoDistributions">					
+ex:Resource1 a ms:Corpus ;
+  ms:distribution 
+    [ ms:datasetDistributionForm ms:downloadable ;
+      dct:license &lt;http://purl.org/NET/rdflicense/cc-by4.0&gt;
+    ]
+  ms:distribution 
+    [ ms:datasetDistributionForm ms:accessibleWithInterface ; 
+      dct:license &lt;http://purl.org/NET/rdflicense/cc-by4.0&gt;
+    ]
+</pre>
+
+<pre class="example nohighlight turtle" title="A tool/service with one distribution (web service) with dual licences (for the model contained in the service and the code)" id="LR_dualLicences">	
+ex:Resource1 a ms:ToolService ;
+  ms:distribution 
+    [ ms:softwareDistributionForm ms:webservice ;
+      dct:license &lt;http://rdflicense.appspot.com/rdflicense/cc-by4.0.ttl&gt; ;
+      dct:license &lt;http://purl.org/NET/rdflicense/APACHE2.0.ttl&gt;
+    ]
+</pre>
+
+<pre class="example nohighlight turtle" title="A corpus with one distribution released with different licences (because it is composed of subsets released with different licences)" id="LR_collectionMultipleLicences">
+ex:Resource1 a ms:Corpus ;
+  ms:distribution 
+    [ ms:datasetDistributionForm ms:downloadable ;
+      dct:license &lt;http://rdflicense.appspot.com/rdflicense/cc-by4.0.ttl&gt; ;
+      dct:license &lt;http://rdflicense.appspot.com/rdflicense/cc-by-nc-4.0.ttl&gt;
+    ]
+</pre>
+
+<pre class="example nohighlight turtle" title="A corpus with two distributions with different pricing restrictions (free for academic users and at a price for commercial users)" id="LR_differentPrices">    
+ex:Resource1 a ms:Corpus ;
+  ms:distribution 
+    [ ms:datasetDistributionForm ms:downloadable ;
+      dct:license &lt; http://rdflicense.appspot.com/rdflicense/elra-end-user.ttl&gt; ; 
+      ms:userType ms:academic
+    ]
+    [ ms:datasetDistributionForm ms:downloadable ;
+      dct:license &lt; http://rdflicense.appspot.com/rdflicense/elra-end-user.ttl&gt; ; 
+      ms:cost [ 
+      ms:amount &quot;10000&quot; ; 
+      ms:currency ms:euro
+      ]
+      ms:userType ms:commercial
+    ] 
+</pre>
+
+<pre class="example nohighlight turtle" title="A corpus embargoed for release after a certain date" id="LR_dateEmbargo">
+ex:Resource1 a ms:Corpus ;
+  ms:distribution 
+    [ ms:datasetDistributionForm ms:downloadable ;
+      dct:license &lt;http://purl.org/NET/rdflicense/cc-by4.0&gt; ;
+      ms:availabilityStartDate &quot;2021-06-30&quot;
+    ] .
+</pre>
+
+<h3>Examples of Licences</h3>
+
+<pre class="example nohighlight turtle" title="Standard licence without conditions; user is allowed to download, process, execute without any constraints" id="Licence_noConditions">
+&lt;http://purl.org/NET/rdflicense/ilsp/CC0-1.0&gt;
+  a odrl:Policy ;
+  rdfs:label &quot;Creative Commons Zero v1.0 Universal&quot; ;
+  dct:source &lt;https://creativecommons.org/publicdomain/zero/1.0/legalcode&gt; ;
+  dct:language &lt;http://www.lexvo.org/page/iso639-3/eng&gt; ;
+  dct:identifier &quot;CC0-1.0&quot; ;
+  rdfs:seeAlso &lt;http://spdx.org/licenses/CC0-1.0&gt; ;
+  ms:licenceCategory ms:allowsDirectAccess ;
+  ms:licenceCategory ms:allowsProcessing ;
+  ms:conditionOfUse ms:noConditions ;
+  odrl:permission [
+          a odrl:Permission ;
+          odrl:action ms:download , odrl:execute , ms:process, odrl:aggregate 
+  ] .
+</pre>
+
+<pre class="example nohighlight turtle" title="Licence requesting a signature from the user" id="Licence_signature">
+ &lt;http://purl.org/NET/rdflicense/elra-var&gt;
+  a odrl:Policy ;
+  rdfs:label &quot; LANGUAGE RESOURCES VALUE-ADDED-RESELLER AGREEMENT&quot; ;
+  dct:source &lt;http://www.elda.org/media/filer_public/2014/08/01/var_140312.pdf&gt; ;
+  dct:language &lt;http://www.lexvo.org/page/iso639-3/eng&gt; ;
+  ms:conditionOfUse ms:noRedistribution , ms:languageEngineeringResearch , ms:spatialConstraint , cc:Attribution ;
+  ms:licenceCategory ms:allowsAccessWithSignature ;
+  ms:licenceCategory ms:requiresUserAuthentication ;
+  ms:licenceCategory ms:allowsProcessing ;
+  odrl:permission [
+          a odrl:Permission ;
+          odrl:action ms:download , ms:process, ms:execute, odrl:aggregate, ms:combine ;
+                odrl:constraint
+                        [ a odrl:Constraint ;
+                          odrl:operator odrl:eq ;
+                          odrl:spatial &quot;only at assignee's site&quot;
+                        ] ;
+                        [ a odrl:Constraint ;
+                          odrl:operator odrl:eq ;
+                          odrl:purpose ms:languageEngineeringResearch
+                        ] ;
+                        [ a odrl:Constraint ;
+                          odrl:operator odrl:eq ;
+                          odrl:assignee ms:sign
+              ] ;
+                        [ a odrl:Constraint ;
+                          odrl:operator odrl:eq ;
+                          odrl:assignee ms:signIn
+                        ] 
+                odrl:duty
+                        [ odrl:action cc:Attribution
+                        ] 
+    ] ;
+  odrl:prohibition
+              [ odrl:action cc:Distribution
+              ] . 
+</pre>
+
+
+
+<pre class="example nohighlight turtle" title="Licence that requires user authentication (the user must be logged in)" id="Licence_authentication">
+&lt;http://purl.org/NET/rdflicense/ilsp/ms-c-nored&gt;
+  a odrl:Policy ;
+  rdfs:label &quot;META-SHARE Commercial NoRedistribution&quot; ;
+  dct:source &lt;http://www.meta-net.eu/meta-share/meta-share-licenses/META-SHARE%20Commercial%20%20NoRedistribution_v0%207.pdf&gt; ;
+  ms:conditionOfUse ms:noRedistribution , ms:languageEngineeringResearch , ms:attribution ;
+  ms:licenceCategory ms:requiresUserAuthorization ;
+  ms:licenceCategory ms:allowsProcessing ;
+  odrl:permission [
+          a odrl:Permission ;
+          odrl:action ms:download , ms:process, ms:execute, odrl:aggregate, ms:combine ;
+                odrl:constraint
+                        [ a       odrl:Constraint ;
+                          odrl:operator odrl:eq ;
+                          odrl:spatial &quot;only at assignee's site&quot;
+                        ] ;
+                odrl:constraint
+                        [ a       odrl:Constraint ;
+                          odrl:operator odrl:eq ;
+                          odrl:purpose ms:languageEngineeringResearch
+                        ] ;
+                odrl:constraint
+                        [ a odrl:Constraint ;
+                          odrl:operator odrl:eq ;
+                          odrl:assignee ms:authorize
+                        ] ;
+                odrl:duty
+                        [ odrl:action cc:Attribution
+                        ] 
+              ] ;
+  ] ;
+  odrl:prohibition
+              [ odrl:action cc:Distribution
+              ] .
+</pre>
+
+<pre class="example nohighlight turtle" title="Terms of use for a service with a price model set by characters on a daily base (different prices per interval)" id="Terms_count_interval">
+
+<p>Processing</p>
+<ul>
+<li>of 0 - 100 characters per day: the user has to pay 10 USD;<li>
+<li>from 101 - 500 chars per day: 50 USD</li>
+</ul>
+
+[]   a odrl:Duty;
+     odrl:action   [
+              a md:Compensate ;
+odrl:payAmount    10.00 ;
+             odrl:unit         &lt;https://www.wikidata.org/wiki/Q4917&gt; ;  # USD
+             odrl:unitOfCount  [ a ms:Character ] ;
+             odrl:refinement [ 
+      odrl:operator odrl:lt ;
+      odrl:count 100 ;
+      odrl:meteredTime odrl:lteq &quot;;P1D&&quot;
+] 
+           ] , [
+              a                md:Compensate ;
+odrl:payAmount    50.00 ;
+             odrl:unit         &lt;https://www.wikidata.org/wiki/Q4917&gt; ;  # USD
+             odrl:unitOfCount  [ a ms:Character ] ;
+             odrl:refinement [ 
+      odrl:operator odrl:gt ;
+      odrl:count 100 ;
+      odrl:meteredTime odrl:lteq &quot;P1D&quot;
+], [
+      odrl:operator odrl:lt ;
+      odrl:count 500 ;
+      odrl:meteredTime odrl:lteq &quot;P1D&quot;
+]
+           ]
+ .
+</pre>
+
+<pre class="example nohighlight turtle" title="Terms of use for a service with limited use on a daily base" id="Terms_count_interval">
+
+<p>Execution of service for up to 100 characters per day</p>
+
+[]   a odrl:Permission ;
+     odrl:action   [
+              a odrl:execute ;
+             odrl:unitOfCount  [ a ms:Character ] ;
+             odrl:refinement [ 
+			odrl:operator odrl:lt ;
+ 			odrl:count 100 ;
+			odrl:meteredTime odrl:lteq &quot;P1D&quot;
+      ]   
+]  .
+</pre>
+
+<pre class="example nohighlight turtle" title="Terms of use for a service with limited use on a daily base" id="Terms_count_interval">
+
+<p>Execution of service for up to 100 characters per day</p>
+
+Execution of service for up to 100 API calls and up to 10 GB of processing volume per day
+[]   a odrl:Permission ;
+     odrl:action   [
+              a odrl:execute ;
+             odrl:unitOfCount  [ a ms:apiCall ] ;
+             odrl:refinement [ 
+			odrl:operator odrl:lt ;
+ 			odrl:count 100 ;
+			odrl:meteredTime odrl:lteq &quot;P1D&quot;
+ ] ;
+             odrl:unitOfCount  [ a ms:processedGB ] ;
+             odrl:refinement [ 
+			odrl:operator odrl:lt ;
+ 			odrl:count 10 ;
+			odrl:meteredTime odrl:lteq &quot;P1D&quot;
+ ] 
+]  .
+</pre>
+
+</section>
+
+<section id="acknows">
+
+<h2>Acknowledgements</h2>
+<p>This work has received funding from the European Union's Horizon 2020 research and innovation programme under grant agreement No 825182: <a href="https://pret-a-llod.github.io/">Prêt-à-LLOD</a> and the COST Action <a href="https://nexuslinguarum.eu/">"Nexus Linguarum"</a> (CA18209)</p>
+<p>A service supporting the transformation of XML files of licences into ODRL policies was developed in Athens in July 2021 by the <a href="https://www.ilsp.gr/en/home-2/">Institute for Language and Speech Processing</a> (Athena RC) and the <a href="https://oeg.fi.upm.es/">Ontology Engineering Group</a> (Universidad Politécnica de Madrid) available at https://rdflicense.linkeddata.es/service.html and as an API at https://rdflicense.linkeddata.es/swagger-ui.html</p>
+</section>
+		
+
+<section id="userReqs">
+<h2>A. User requirements</h2>
+
+<p><b>User requirements on LRT hosting/distributing entities from LRT providers</b></p>
+<p>UR1.	As an LRT provider, I want to make available my LRT with a licence</p>
+<p>UR2.	As an LRT provider, I want to make available different forms of my LRT with different licences.</p>
+<p>UR3.	As an LRT provider, I want to be able to release my LRT with a custom licence that includes access restrictions.</p>
+<p>UR4.	As a provider of a commercial LT, I want to limit access to my service based on a count of specific units (e.g., count of API requests, characters to be processed, audio/video seconds to be processed) for a limited time period (e.g., on a weekly basis)</p>
+<p>UR5.	As a provider of a commercial LT, I want to give access to my service with a billing model that takes into account counts (cf. R4).</p>
+<p></p>
+
+<p><b>User requirements on LRT hosting/distributing entities from LRT consumers</b></p>
+<p>UR6.	As an LRT consumer, I want to search for LRTs based on their licences.</p>
+<p>UR7.	As an LRT consumer, I want to search for LRTs based on broad usage conditions.</p>
+<p>UR8.	As an LRT consumer, I want to obtain access to (use, deploy, process, download, …) an LRT </p>
+<p>UR9.	As an LRT consumer, I want to view the licence of an LRT.</p>
+<p>UR10.	As an LRT consumer, I want to be able to combine LRTs.</p>
+<p></p>
+
+<p><b>User requirements of LRT hosting/distributing entities</b></p>
+<p>UR11.	As a distributing entity, I want to give access to LRTs and impose restrictions based on their licensing conditions </p>
+<p>a.	allow users to download/access/consume data resources/services/tools with permissive licences without any interaction</p>
+<p>b.	give access to authorized users only for LRTs requiring authorization</p>
+<p>c.	enforce signature to users before getting access to a resource/service for licences that require signature</p>
+<p>d.	enforce conditions stemming from multiple licences on the same distribution (e.g. combination of software & data)</p>
+<p>e.	give access to authenticated users only for LRTs requiring authentication</p>
+<p>f.	I want to support a billing module that takes into account reductions / restrictions for members of a group</p>
+<p>UR12.	As a distributing entity, I want to monitor the use of LT processing services in order to limit or bill users when accessing them</p>
+<p>UR13.	As a distributing entity, I want to support LRT providers in attaching a single or multiple licences on distributions of LRTs</p>
+<p>UR14.	As a distributing entity, I want to ask the providers to describe the conditions of use for the new licences</p>
+<p>UR15.	As a distributing entity, I want to have information that may affect its licence (e.g. inclusion of non-anonymized sensitive data)</p>
+<p>UR16.	As a distributing entity, I want to know the usage conditions under which a LRT is released, preferably in a machine readable form.</p>
+<p>UR17.	As a distributing entity, I want to aggregate the set of licences of multiple data resources into one set of licences for a collection or attach a single licence on a collection of resources</p>
+
+<!-- Infrastructure	support exchange of PD for users from infra to commercial provider - should these be annonymised and to what degree? -->
+</section>
+
+<section id="dataset">
+<h2>B. Dataset of licences</h2>
+<p>To facilitate providers of LRTs, a set of licences in ODRL is available at ? in the form of three interpretations:</p>
+<ul>
+<li>following this profile targeting entities responsible for granting access to LRTs</li>
+<li>by the entity that has originally published the licences targeting end-users</li>
+<li>as interpreted by dallic, targeting end-users.</li>
+</ul>
+
+<p>The META-SHARE interpretation of licences includes the SPDX identifier, thus linking the licences to the official SPDX License List. The SPDX License List includes a standardized short identifier, full name, vetted license text including matching guidelines markup as appropriate, and a canonical permanent URL for each license and exception; it is available at the spdx github in various serialization formats.</p>
+<p>The META-SHARE set of licences includes representations for popular licences in the domain of LRTs, both standard ones, such as Creative Commons, but also standard licences created specifically for the distribution of LRTs, namely ELRA, META-SHARE and CLARIN licences.</p>
+
+</section>
+
+<section id="mappings">
+<h2>C. Mappings for transformation of META-SHARE elements to ODRL policies </h2>
+<h3>Mappings for condition of use</h3>
+<style type="text/css">
+.tg  {border-collapse:collapse;border-color:#93a1a1;border-spacing:0;}
+.tg td{background-color:#fdf6e3;border-color:#93a1a1;border-style:solid;border-width:1px;color:#002b36;
+  font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg th{background-color:#657b83;border-color:#93a1a1;border-style:solid;border-width:1px;color:#fdf6e3;
+  font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg .tg-ul38{position:-webkit-sticky;position:sticky;text-align:left;top:-1px;vertical-align:top;will-change:transform}
+.tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
+.tg .tg-0lax{text-align:left;vertical-align:top}
+@media screen and (max-width: 767px) {.tg {width: auto !important;}.tg col {width: auto !important;}.tg-wrap {overflow-x: auto;-webkit-overflow-scrolling: touch;}}</style>
+<div class="tg-wrap"><table class="tg">
+<thead>
+  <tr>
+    <th class="tg-ul38">Rule type</th>
+    <th class="tg-ul38">Condition of use</th>
+    <th class="tg-ul38">ODRL action/rule representation</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td class="tg-0pky">   <br>Prohibition   </td>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br>ms:noDerivatives&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br><span style="color:black">odrl:prohibition</span><br>&nbsp;&nbsp;&nbsp;<br>              <span style="color:black">[ odrl:action cc:DerivativeWorks</span><br>&nbsp;&nbsp;&nbsp;<br>              <span style="color:black">]</span>&nbsp;&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br>Prohibition&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br>ms:nonCommercialUse&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br><span style="color:black">odrl:prohibition</span><br>&nbsp;&nbsp;&nbsp;<br>              <span style="color:black">[ odrl:action cc:CommercialUse</span><br>&nbsp;&nbsp;&nbsp;<br>              <span style="color:black">] </span>&nbsp;&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br>Prohibition&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br>ms:noRedistribution&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br><span style="color:black">odrl:prohibition</span><br>&nbsp;&nbsp;&nbsp;<br>              <span style="color:black">[ odrl:action cc:Distrbution</span><br>&nbsp;&nbsp;&nbsp;<br>              <span style="color:black">]</span>&nbsp;&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br>Duty&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br>ms:attribution&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br><span style="color:black">odrl:duty</span><br>&nbsp;&nbsp;&nbsp;<br>              <span style="color:black">[ odrl:action cc:Attribution</span><br>&nbsp;&nbsp;&nbsp;<br>              <span style="color:black">] </span>&nbsp;&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br>Duty&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br>ms:shareAlike&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br><span style="color:black">odrl:duty</span><br>&nbsp;&nbsp;&nbsp;<br>              <span style="color:black">[ odrl:action cc:ShareAlike</span><br>&nbsp;&nbsp;&nbsp;<br>              <span style="color:black">] </span>&nbsp;&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br>Duty&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br>ms:redeposit&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br><span style="color:black">odrl:duty</span><br>&nbsp;&nbsp;&nbsp;<br>              <span style="color:black">[ odrl:action ms:deposit </span><br>&nbsp;&nbsp;&nbsp;<br>                       <span style="color:black">[</span><br>&nbsp;&nbsp;&nbsp;<br>                <span style="color:black">odrl:refinement</span><br>&nbsp;&nbsp;&nbsp;<br>                        <span style="color:black">[ a odrl:Constraint ;</span><br>&nbsp;&nbsp;&nbsp;<br>                          <span style="color:black">odrl:leftOperand ms:depositingParty&nbsp;&nbsp;&nbsp;;</span><br>&nbsp;&nbsp;&nbsp;<br>                          <span style="color:black">odrl:operator&nbsp;&nbsp;&nbsp;odrl:eq ;</span><br>&nbsp;&nbsp;&nbsp;<br>                          <span style="color:black">odrl:rightOperand&nbsp;&nbsp;&nbsp;odrl:assigner</span><br>&nbsp;&nbsp;&nbsp;<br>                        <span style="color:black">] </span><br>&nbsp;&nbsp;&nbsp;<br>              <span style="color:black">] </span>&nbsp;&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br>Duty&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br>ms:informLicensor&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br><span style="color:black">odrl:duty</span><br>&nbsp;&nbsp;&nbsp;<br>              <span style="color:black">[ odrl:action ms:report </span><br>&nbsp;&nbsp;&nbsp;<br>                       <span style="color:black">[</span><br>&nbsp;&nbsp;&nbsp;<br>                <span style="color:black">odrl:refinement</span><br>&nbsp;&nbsp;&nbsp;<br>                        <span style="color:black">[ a odrl:Constraint ;</span><br>&nbsp;&nbsp;&nbsp;<br>                          <span style="color:black">odrl:leftOperand odrl:informedParty&nbsp;&nbsp;&nbsp;;</span><br>&nbsp;&nbsp;&nbsp;<br>                          <span style="color:black">odrl:operator&nbsp;&nbsp;&nbsp;odrl:eq ;</span><br>&nbsp;&nbsp;&nbsp;<br>                          <span style="color:black">odrl:rightOperand odrl:assigner</span><br>&nbsp;&nbsp;&nbsp;<br>                        <span style="color:black">] ;</span><br>&nbsp;&nbsp;&nbsp;<br>                       <span style="color:black">[</span><br>&nbsp;&nbsp;&nbsp;<br>                <span style="color:black">odrl:refinement</span><br>&nbsp;&nbsp;&nbsp;<br>                        <span style="color:black">[ a odrl:Constraint ;</span><br>&nbsp;&nbsp;&nbsp;<br>                         <span style="color:black">odrl:leftOperand ms:objectOfReport&nbsp;&nbsp;&nbsp;;</span><br>&nbsp;&nbsp;&nbsp;<br>                          <span style="color:black">odrl:operator&nbsp;&nbsp;&nbsp;odrl:eq ;</span><br>&nbsp;&nbsp;&nbsp;<br>                          <span style="color:black">odrl:rightOperand odrl:Use</span><br>&nbsp;&nbsp;&nbsp;<br>                        <span style="color:black">] </span><br>&nbsp;&nbsp;&nbsp;<br> <br>&nbsp;&nbsp;&nbsp;<br>              <span style="color:black">]</span>&nbsp;&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br>Constraint&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br>ms:spatial&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br><span style="color:black">odrl:constraint</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">[ a</span>       <span style="color:black">odrl:Constraint ;</span><br>&nbsp;&nbsp;&nbsp;<br>               <span style="color:black">odrl:operator&nbsp;&nbsp;&nbsp;odrl:eq ;</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">odrl:leftOperand odrl:spatial ;</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">odrl:rightOperand "only at&nbsp;&nbsp;&nbsp;assignee's site"</span><br>&nbsp;&nbsp;&nbsp;<br>            <span style="color:black">] </span>&nbsp;&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br>Constraint&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br>ms:academicUseOnly&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br><span style="color:black">odrl:constraint</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">[ a</span>       <span style="color:black">odrl:Constraint ;</span><br>&nbsp;&nbsp;&nbsp;<br>               <span style="color:black">odrl:operator&nbsp;&nbsp;&nbsp;odrl:eq ;</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">odrl:leftOperand odrl:purpose ;</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">odrl:rightOperand ms:academicUse</span><br>&nbsp;&nbsp;&nbsp;<br>            <span style="color:black">]</span>&nbsp;&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br>Constraint&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br>ms:evaluationUse&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br><span style="color:black">odrl:constraint</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">[ a</span>       <span style="color:black">odrl:Constraint ;</span><br>&nbsp;&nbsp;&nbsp;<br>               <span style="color:black">odrl:operator&nbsp;&nbsp;&nbsp;odrl:eq ;</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">odrl:leftOperand odrl:purpose ;</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">odrl:rightOperand ms:evaluation1</span><br>&nbsp;&nbsp;&nbsp;<br>            <span style="color:black">]</span>&nbsp;&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br>Constraint&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br>ms:languageEngineeringResearchUse&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br><span style="color:black">odrl:constraint</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">[ a</span>       <span style="color:black">odrl:Constraint ;</span><br>&nbsp;&nbsp;&nbsp;<br>               <span style="color:black">odrl:operator&nbsp;&nbsp;&nbsp;odrl:eq ;</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">odrl:leftOperand odrl:purpose ;</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">odrl:rightOperand&nbsp;&nbsp;&nbsp;ms:languageEngineeringResearch</span><br>&nbsp;&nbsp;&nbsp;<br>            <span style="color:black">]</span>&nbsp;&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br>Constraint&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br>ms:researchUse&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br><span style="color:black">odrl:constraint</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">[ a</span>       <span style="color:black">odrl:Constraint ;</span><br>&nbsp;&nbsp;&nbsp;<br>               <span style="color:black">odrl:operator&nbsp;&nbsp;&nbsp;odrl:eq ;</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">odrl:leftOperand odrl:purpose ;</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">odrl:rightOperand ms:research</span><br>&nbsp;&nbsp;&nbsp;<br>            <span style="color:black">]</span>&nbsp;&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br>Constraint&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br>ms:trainingUse&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br><span style="color:black">odrl:constraint</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">[ a</span>       <span style="color:black">odrl:Constraint ;</span><br>&nbsp;&nbsp;&nbsp;<br>               <span style="color:black">odrl:operator&nbsp;&nbsp;&nbsp;odrl:eq ;</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">odrl:leftOperand odrl:purpose ;</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">odrl:rightOperand ms:training</span><br>&nbsp;&nbsp;&nbsp;<br>            <span style="color:black">]</span>&nbsp;&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br>Constraint&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br>ms:academicUser&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br><span style="color:black">odrl:constraint</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">[ a</span>       <span style="color:black">odrl:Constraint ;</span><br>&nbsp;&nbsp;&nbsp;<br>               <span style="color:black">odrl:operator&nbsp;&nbsp;&nbsp;odrl:eq ;</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">odrl:leftOperand odrl:userType ;</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">odrl:rightOperand ms:academic</span><br>&nbsp;&nbsp;&nbsp;<br>            <span style="color:black">]</span>&nbsp;&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br>Constraint&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br>ms:commercialUser&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br><span style="color:black">odrl:constraint</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">[ a</span>       <span style="color:black">odrl:Constraint ;</span><br>&nbsp;&nbsp;&nbsp;<br>               <span style="color:black">odrl:operator&nbsp;&nbsp;&nbsp;odrl:eq ;</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">odrl:leftOperand odrl:userType ;</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">odrl:rightOperand ms:commercial</span><br>&nbsp;&nbsp;&nbsp;<br>            <span style="color:black">]</span>&nbsp;&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br>Constraint&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br>ms:memberOfAssociation1&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br><span style="color:black">odrl:constraint</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">[ a</span>       <span style="color:black">odrl:Constraint ;</span><br>&nbsp;&nbsp;&nbsp;<br>               <span style="color:black">odrl:operator&nbsp;&nbsp;&nbsp;odrl:isPartOf ;</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">odrl:leftOperand odrl:assignee ;</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">odrl:rightOperand "association&nbsp;&nbsp;&nbsp;X"</span><br>&nbsp;&nbsp;&nbsp;<br>            <span style="color:black">]</span>&nbsp;&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br>Constraint&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br>ms:requestPlan&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br><span style="color:black">odrl:duty</span><br>&nbsp;&nbsp;&nbsp;<br>              <span style="color:black">[ odrl:action ms:report </span><br>&nbsp;&nbsp;&nbsp;<br>                       <span style="color:black">[</span><br>&nbsp;&nbsp;&nbsp;<br>                <span style="color:black">odrl:refinement</span><br>&nbsp;&nbsp;&nbsp;<br>                        <span style="color:black">[ a odrl:Constraint ;</span><br>&nbsp;&nbsp;&nbsp;<br>                          <span style="color:black">odrl:leftOperand odrl:informedParty&nbsp;&nbsp;&nbsp;;</span><br>&nbsp;&nbsp;&nbsp;<br>                          <span style="color:black">odrl:operator&nbsp;&nbsp;&nbsp;odrl:eq ;</span><br>&nbsp;&nbsp;&nbsp;<br>                          <span style="color:black">odrl:rightOperand&nbsp;&nbsp;&nbsp;odrl:assigner</span><br>&nbsp;&nbsp;&nbsp;<br>                        <span style="color:black">] ;</span><br>&nbsp;&nbsp;&nbsp;<br>                       <span style="color:black">[</span><br>&nbsp;&nbsp;&nbsp;<br>                <span style="color:black">odrl:refinement</span><br>&nbsp;&nbsp;&nbsp;<br>                        <span style="color:black">[ a odrl:Constraint ;</span><br>&nbsp;&nbsp;&nbsp;<br>                         <span style="color:black">odrl:leftOperand ms:objectOfReport&nbsp;&nbsp;&nbsp;;</span><br>&nbsp;&nbsp;&nbsp;<br>                          <span style="color:black">odrl:operator&nbsp;&nbsp;&nbsp;odrl:eq ;</span><br>&nbsp;&nbsp;&nbsp;<br>                          <span style="color:black">odrl:rightOperand&nbsp;&nbsp;&nbsp;ms:ResearchPlan</span><br>&nbsp;&nbsp;&nbsp;<br>                        <span style="color:black">] </span><br>&nbsp;&nbsp;&nbsp;<br> <br>&nbsp;&nbsp;&nbsp;<br>              <span style="color:black">]</span>&nbsp;&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br>Constraint&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0lax">&nbsp;&nbsp;&nbsp;<br>ms:userIdentified&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0lax"><span style="color:black">odrl:duty [</span><br>               <span style="color:black">odrl:Action ms:signIn</span><br>        <span style="color:black">]</span><br>   </td>
+  </tr>
+</tbody>
+</table></div>
+
+<h3>Mappings for licence category</h3>
+<p>The first two values of the licence category  (allowsDirectAccess & allowsProcessing) specify the types of actions that the distributing entity may perform, while the other values refine the constraints on which these actions are performed.</p>
+<style type="text/css">
+.tg  {border-collapse:collapse;border-color:#93a1a1;border-spacing:0;}
+.tg td{background-color:#fdf6e3;border-color:#93a1a1;border-style:solid;border-width:1px;color:#002b36;
+  font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg th{background-color:#657b83;border-color:#93a1a1;border-style:solid;border-width:1px;color:#fdf6e3;
+  font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg .tg-j1i3{border-color:inherit;position:-webkit-sticky;position:sticky;text-align:left;top:-1px;vertical-align:top;
+  will-change:transform}
+.tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
+@media screen and (max-width: 767px) {.tg {width: auto !important;}.tg col {width: auto !important;}.tg-wrap {overflow-x: auto;-webkit-overflow-scrolling: touch;}}</style>
+<div class="tg-wrap"><table class="tg">
+<thead>
+  <tr>
+    <th class="tg-j1i3">Rule type</th>
+    <th class="tg-j1i3">Condition of use</th>
+    <th class="tg-j1i3">ODRL action/rule representation</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td class="tg-0pky">   <br>Prohibition   </td>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>ms:noDerivatives&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br><span style="color:black">odrl:prohibition</span><br>&nbsp;&nbsp;&nbsp;<br>              <span style="color:black">[ odrl:action cc:DerivativeWorks</span><br>&nbsp;&nbsp;&nbsp;<br>              <span style="color:black">]</span>&nbsp;&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>Prohibition&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>ms:nonCommercialUse&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br><span style="color:black">odrl:prohibition</span><br>&nbsp;&nbsp;&nbsp;<br>              <span style="color:black">[ odrl:action cc:CommercialUse</span><br>&nbsp;&nbsp;&nbsp;<br>              <span style="color:black">] </span>&nbsp;&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>Prohibition&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>ms:noRedistribution&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br><span style="color:black">odrl:prohibition</span><br>&nbsp;&nbsp;&nbsp;<br>              <span style="color:black">[ odrl:action cc:Distrbution</span><br>&nbsp;&nbsp;&nbsp;<br>              <span style="color:black">]</span>&nbsp;&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>Duty&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>ms:attribution&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br><span style="color:black">odrl:duty</span><br>&nbsp;&nbsp;&nbsp;<br>              <span style="color:black">[ odrl:action cc:Attribution</span><br>&nbsp;&nbsp;&nbsp;<br>              <span style="color:black">] </span>&nbsp;&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>Duty&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>ms:shareAlike&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br><span style="color:black">odrl:duty</span><br>&nbsp;&nbsp;&nbsp;<br>              <span style="color:black">[ odrl:action cc:ShareAlike</span><br>&nbsp;&nbsp;&nbsp;<br>              <span style="color:black">] </span>&nbsp;&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>Duty&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>ms:redeposit&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br><span style="color:black">odrl:duty</span><br>&nbsp;&nbsp;&nbsp;<br>              <span style="color:black">[ odrl:action ms:deposit </span><br>&nbsp;&nbsp;&nbsp;<br>                       <span style="color:black">[</span><br>&nbsp;&nbsp;&nbsp;<br>                <span style="color:black">odrl:refinement</span><br>&nbsp;&nbsp;&nbsp;<br>                        <span style="color:black">[ a odrl:Constraint ;</span><br>&nbsp;&nbsp;&nbsp;<br>                          <span style="color:black">odrl:leftOperand ms:depositingParty&nbsp;&nbsp;&nbsp;;</span><br>&nbsp;&nbsp;&nbsp;<br>                          <span style="color:black">odrl:operator&nbsp;&nbsp;&nbsp;odrl:eq ;</span><br>&nbsp;&nbsp;&nbsp;<br>                          <span style="color:black">odrl:rightOperand&nbsp;&nbsp;&nbsp;odrl:assigner</span><br>&nbsp;&nbsp;&nbsp;<br>                        <span style="color:black">] </span><br>&nbsp;&nbsp;&nbsp;<br>              <span style="color:black">] </span>&nbsp;&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>Duty&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>ms:informLicensor&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br><span style="color:black">odrl:duty</span><br>&nbsp;&nbsp;&nbsp;<br>              <span style="color:black">[ odrl:action ms:report </span><br>&nbsp;&nbsp;&nbsp;<br>                       <span style="color:black">[</span><br>&nbsp;&nbsp;&nbsp;<br>                <span style="color:black">odrl:refinement</span><br>&nbsp;&nbsp;&nbsp;<br>                        <span style="color:black">[ a odrl:Constraint ;</span><br>&nbsp;&nbsp;&nbsp;<br>                          <span style="color:black">odrl:leftOperand odrl:informedParty&nbsp;&nbsp;&nbsp;;</span><br>&nbsp;&nbsp;&nbsp;<br>                          <span style="color:black">odrl:operator&nbsp;&nbsp;&nbsp;odrl:eq ;</span><br>&nbsp;&nbsp;&nbsp;<br>                          <span style="color:black">odrl:rightOperand odrl:assigner</span><br>&nbsp;&nbsp;&nbsp;<br>                        <span style="color:black">] ;</span><br>&nbsp;&nbsp;&nbsp;<br>                       <span style="color:black">[</span><br>&nbsp;&nbsp;&nbsp;<br>                <span style="color:black">odrl:refinement</span><br>&nbsp;&nbsp;&nbsp;<br>                        <span style="color:black">[ a odrl:Constraint ;</span><br>&nbsp;&nbsp;&nbsp;<br>                         <span style="color:black">odrl:leftOperand ms:objectOfReport&nbsp;&nbsp;&nbsp;;</span><br>&nbsp;&nbsp;&nbsp;<br>                          <span style="color:black">odrl:operator&nbsp;&nbsp;&nbsp;odrl:eq ;</span><br>&nbsp;&nbsp;&nbsp;<br>                          <span style="color:black">odrl:rightOperand odrl:Use</span><br>&nbsp;&nbsp;&nbsp;<br>                        <span style="color:black">] </span><br>&nbsp;&nbsp;&nbsp;<br> <br>&nbsp;&nbsp;&nbsp;<br>              <span style="color:black">]</span>&nbsp;&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>Constraint&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>ms:spatial&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br><span style="color:black">odrl:constraint</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">[ a</span>       <span style="color:black">odrl:Constraint ;</span><br>&nbsp;&nbsp;&nbsp;<br>               <span style="color:black">odrl:operator&nbsp;&nbsp;&nbsp;odrl:eq ;</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">odrl:leftOperand odrl:spatial ;</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">odrl:rightOperand "only at&nbsp;&nbsp;&nbsp;assignee's site"</span><br>&nbsp;&nbsp;&nbsp;<br>            <span style="color:black">] </span>&nbsp;&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>Constraint&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>ms:academicUseOnly&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br><span style="color:black">odrl:constraint</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">[ a</span>       <span style="color:black">odrl:Constraint ;</span><br>&nbsp;&nbsp;&nbsp;<br>               <span style="color:black">odrl:operator&nbsp;&nbsp;&nbsp;odrl:eq ;</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">odrl:leftOperand odrl:purpose ;</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">odrl:rightOperand ms:academicUse</span><br>&nbsp;&nbsp;&nbsp;<br>            <span style="color:black">]</span>&nbsp;&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>Constraint&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>ms:evaluationUse&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br><span style="color:black">odrl:constraint</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">[ a</span>       <span style="color:black">odrl:Constraint ;</span><br>&nbsp;&nbsp;&nbsp;<br>               <span style="color:black">odrl:operator&nbsp;&nbsp;&nbsp;odrl:eq ;</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">odrl:leftOperand odrl:purpose ;</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">odrl:rightOperand ms:evaluation1</span><br>&nbsp;&nbsp;&nbsp;<br>            <span style="color:black">]</span>&nbsp;&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>Constraint&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>ms:languageEngineeringResearchUse&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br><span style="color:black">odrl:constraint</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">[ a</span>       <span style="color:black">odrl:Constraint ;</span><br>&nbsp;&nbsp;&nbsp;<br>               <span style="color:black">odrl:operator&nbsp;&nbsp;&nbsp;odrl:eq ;</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">odrl:leftOperand odrl:purpose ;</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">odrl:rightOperand&nbsp;&nbsp;&nbsp;ms:languageEngineeringResearch</span><br>&nbsp;&nbsp;&nbsp;<br>            <span style="color:black">]</span>&nbsp;&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>Constraint&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>ms:researchUse&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br><span style="color:black">odrl:constraint</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">[ a</span>       <span style="color:black">odrl:Constraint ;</span><br>&nbsp;&nbsp;&nbsp;<br>               <span style="color:black">odrl:operator&nbsp;&nbsp;&nbsp;odrl:eq ;</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">odrl:leftOperand odrl:purpose ;</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">odrl:rightOperand ms:research</span><br>&nbsp;&nbsp;&nbsp;<br>            <span style="color:black">]</span>&nbsp;&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>Constraint&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>ms:trainingUse&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br><span style="color:black">odrl:constraint</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">[ a</span>       <span style="color:black">odrl:Constraint ;</span><br>&nbsp;&nbsp;&nbsp;<br>               <span style="color:black">odrl:operator&nbsp;&nbsp;&nbsp;odrl:eq ;</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">odrl:leftOperand odrl:purpose ;</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">odrl:rightOperand ms:training</span><br>&nbsp;&nbsp;&nbsp;<br>            <span style="color:black">]</span>&nbsp;&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>Constraint&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>ms:academicUser&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br><span style="color:black">odrl:constraint</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">[ a</span>       <span style="color:black">odrl:Constraint ;</span><br>&nbsp;&nbsp;&nbsp;<br>               <span style="color:black">odrl:operator&nbsp;&nbsp;&nbsp;odrl:eq ;</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">odrl:leftOperand odrl:userType ;</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">odrl:rightOperand ms:academic</span><br>&nbsp;&nbsp;&nbsp;<br>            <span style="color:black">]</span>&nbsp;&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>Constraint&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>ms:commercialUser&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br><span style="color:black">odrl:constraint</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">[ a</span>       <span style="color:black">odrl:Constraint ;</span><br>&nbsp;&nbsp;&nbsp;<br>               <span style="color:black">odrl:operator&nbsp;&nbsp;&nbsp;odrl:eq ;</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">odrl:leftOperand odrl:userType ;</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">odrl:rightOperand ms:commercial</span><br>&nbsp;&nbsp;&nbsp;<br>            <span style="color:black">]</span>&nbsp;&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>Constraint&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>ms:memberOfAssociation1&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br><span style="color:black">odrl:constraint</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">[ a</span>       <span style="color:black">odrl:Constraint ;</span><br>&nbsp;&nbsp;&nbsp;<br>               <span style="color:black">odrl:operator&nbsp;&nbsp;&nbsp;odrl:isPartOf ;</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">odrl:leftOperand odrl:assignee ;</span><br>&nbsp;&nbsp;&nbsp;<br>             <span style="color:black">odrl:rightOperand "association&nbsp;&nbsp;&nbsp;X"</span><br>&nbsp;&nbsp;&nbsp;<br>            <span style="color:black">]</span>&nbsp;&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>Constraint&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>ms:requestPlan&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br><span style="color:black">odrl:duty</span><br>&nbsp;&nbsp;&nbsp;<br>              <span style="color:black">[ odrl:action ms:report </span><br>&nbsp;&nbsp;&nbsp;<br>                       <span style="color:black">[</span><br>&nbsp;&nbsp;&nbsp;<br>                <span style="color:black">odrl:refinement</span><br>&nbsp;&nbsp;&nbsp;<br>                        <span style="color:black">[ a odrl:Constraint ;</span><br>&nbsp;&nbsp;&nbsp;<br>                          <span style="color:black">odrl:leftOperand odrl:informedParty&nbsp;&nbsp;&nbsp;;</span><br>&nbsp;&nbsp;&nbsp;<br>                          <span style="color:black">odrl:operator&nbsp;&nbsp;&nbsp;odrl:eq ;</span><br>&nbsp;&nbsp;&nbsp;<br>                          <span style="color:black">odrl:rightOperand&nbsp;&nbsp;&nbsp;odrl:assigner</span><br>&nbsp;&nbsp;&nbsp;<br>                        <span style="color:black">] ;</span><br>&nbsp;&nbsp;&nbsp;<br>                       <span style="color:black">[</span><br>&nbsp;&nbsp;&nbsp;<br>                <span style="color:black">odrl:refinement</span><br>&nbsp;&nbsp;&nbsp;<br>                        <span style="color:black">[ a odrl:Constraint ;</span><br>&nbsp;&nbsp;&nbsp;<br>                         <span style="color:black">odrl:leftOperand ms:objectOfReport&nbsp;&nbsp;&nbsp;;</span><br>&nbsp;&nbsp;&nbsp;<br>                          <span style="color:black">odrl:operator&nbsp;&nbsp;&nbsp;odrl:eq ;</span><br>&nbsp;&nbsp;&nbsp;<br>                          <span style="color:black">odrl:rightOperand&nbsp;&nbsp;&nbsp;ms:ResearchPlan</span><br>&nbsp;&nbsp;&nbsp;<br>                        <span style="color:black">] </span><br>&nbsp;&nbsp;&nbsp;<br> <br>&nbsp;&nbsp;&nbsp;<br>              <span style="color:black">]</span>&nbsp;&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>Constraint&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0pky">&nbsp;&nbsp;&nbsp;<br>ms:userIdentified&nbsp;&nbsp;&nbsp;</td>
+    <td class="tg-0pky"><span style="color:black">odrl:duty [</span><br>               <span style="color:black">odrl:Action ms:signIn</span><br>        <span style="color:black">]</span><br>   </td>
+  </tr>
+</tbody>
+</table></div>
+</section>
+		
+	</body>
+</html>
+	
