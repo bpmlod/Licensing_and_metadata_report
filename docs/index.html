@@ -3,21 +3,63 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title>Guidelines for licensing Linguistic Linked Data (LLD) and related services</title>
-		<script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
-		<script class="remove" src="config.js"></script>
+    <meta charset='utf-8'>
+	<link rel="stylesheet" href="stylesheets/codemirror.css"> 
+	<script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
+    <!--		<script class="remove" src="config.js"></script> -->
+	<script src="javascripts/codemirror-compressed.js"></script>
+	<script src="http://codemirror.net/mode/sparql/sparql.js"></script>
+	<script src="http://codemirror.net/addon/runmode/runmode.js"></script>
+	<script src="http://codemirror.net/addon/runmode/colorize.js"></script>
+<script class='remove'>
+      var respecConfig = {
+
+          specStatus: "CG-DRAFT",
+		  <!-- https://github.com/w3c/respec/wiki/doJsonLd use doJsonLd instead of doRDFa -->
+          <!-- doRDFa: "1.1", -->
+          shortName:  "bpmlod_licensing",
+		  publishDate:  "2024-10-03",
+          editors: [
+                {   name:       "Penny Labropoulou",
+                    company:    "ILSP/Athena RC",
+                    companyURL: "https://www.ilsp.gr/" },
+				{   name:       "Victor",
+                    company:    "xx",
+                    companyURL: "https://www.ilsp.gr/" }
+          ],
+		  authors: [
+                {   name:       "Penny Labropoulou",
+                    company:    "ILSP/Athena RC",
+                    companyURL: "https://www.ilsp.gr/" },
+				{   name:       "Victor",
+                    company:    "xx",
+                    companyURL: "https://www.ilsp.gr/" },
+				{   name:       "TBC",
+                    url:        "TBC",
+                    company:    "TBC",
+                    companyURL: "TBC" },
+					
+          ],
+		  group: "bpmlod",
+          wg:           "Best Practices for Multilingual Linked Open Data",
+          wgURI:        "http://www.w3.org/community/bpmlod/",
+          wgPublicList: "http://lists.w3.org/Archives/Public/public-bpmlod/",
+//          wgPatentURI:  "http://www.w3.org/2004/01/pp-impl/424242/status",
+      };
+    </script>
 		
 	<!-- this is a draft edition -->	
 		
 	<!-- Also possible the style from view-source:https://www.w3.org/TR/vocab-org/  --> 
 	<!--view-source:https://www.w3.org/TR/vocab-duv/-->
-	<link rel="stylesheet" href="https://www.w3.org/TR/vocab-duv/localstyle.css"/>
-	<link rel="stylesheet" type="text/css" href="https://www.w3.org/StyleSheets/TR/2016/W3C-WG-NOTE"/>
+<!--	<link rel="stylesheet" href="https://www.w3.org/TR/vocab-duv/localstyle.css"/> -->
+<!--	<link rel="stylesheet" type="text/css" href="https://www.w3.org/StyleSheets/TR/2016/W3C-WG-NOTE"/> -->
 	<script src="http://www.w3.org/2013/ShEx/demobits/jquery.min.js" type= "text/javascript"></script>
 		
 	</head>
 	<body>
 		<section  id="abstract">
-			<p>This report aims to offer practical and easy-to-follow guidelines for licensing resources. The target audience includes researchers that wish to publish their resources, as well as institutions (e.g. repositories, archives, etc.) that act as intermediaries for the distribution of resources. </p>
+			<p>This report aims to offer practical and easy-to-follow guidelines for licensing Linguistic Linked Data (LLD) and related services. The target audience includes researchers that wish to publish their resources, as well as institutions (e.g. repositories, archives, etc.) that act as intermediaries for the distribution of resources (hereafter, referred to as "distributing entities"). Although the report is intended for LLD resources, most of the instructions included apply to data resources and technologies in general. Thus, the report builds upon and, where appropriate, includes references to general literature on licensing. The main objective here is to act as a "cookbook" that helps the target audience to easily find and apply licensing principles for their purposes.</p>
 			 
 		</section>
 		<section id='sotd'>
@@ -26,55 +68,15 @@
 	
 		<section id="intro">
 		<h2>Introduction</h2> 
-		<h3>Objectives of the profile</h3>
-		<p>The current profile introduces elements that serve one of these purposes:</p>
-		<ul>
-<li>define actions performed by the above entities in order to provide consumers with access to LRTs</li>
-<li>define restrictions and actions required to implement control of the access to LRTs</li>
-<li>describe vocabulary elements needed to support such policies and/or common policy patterns</li>
-<li>describe vocabulary elements needed to support restrictions and authorization algorithms.</li>
-</ul>
-<p>To achieve these goals, the following requirements motivate our approach to extend the ODRL Vocabulary and Expression specification to define permissions and/or prohibitions associated with access granting operations of LRTs stored and distributed by the above entities, and to re-use and extend the META-SHARE vocabulary to express legal and technical concepts associated to these operations.</p>
-<p>R1. Support specifying user preferences as policies.</p>
-<p>R2. Incorporate vocabulary specifying or aligned to legal concepts.</p>
-<p>R3. Support specifying permissions and prohibitions typical of policies for LRTs.</p>
-<p>R4. Describe policies used to authorise access to data resources and data processing services.</p>
-<p>R5. Specify procedures and algorithms that can generate templates for policies typical of access to LRTs.</p>
-</section>
-
-<section id="overview">
-		<h3>Overview of the LRT distribution landscape</h3> 	
-<p>Sharing of Language Resources and Technologies (LRTs) is included in the mission of infrastructures and distribution bodies, such as the <a href="https://www.european-language-grid.eu/">European Language Grid</a>, <a href="https://www.clarin.eu/">CLARIN</a> and its national nodes (e.g. the <a href="https://www.clarin.gr/en">Greek CLARIN</a>), <a href="http://www.meta-share.eu/">META-SHARE</a>, <a href="http://www.elra.info/en/">ELRA-ELDA</a>. To this end, they create and maintain repositories, that enable the upload and storage of resources, their description in a structured form (metadata records), the search and browse of these resources through dedicated catalogue pages, as well as access to them, which can be performed, for instance, by the download of content files or execution of web services.
-These hosting/distributing entities (in short "distributing entities") act as intermediaries between providers and consumers of LRTs, both human and machines. Therefore, the requirements addressed in the current profile are set by the operational needs of the distributing entities, and indirectly by the needs of providers and consumers.</p>
-<p>To make clearer the requirements, we briefly outline here the landscape of LRTs with a focus on issues related to legal rights and access procedures.</a>
-<p>Under the term "Language Resource and Technology" we include any <b>resource</b> composed of linguistic material used in the construction, improvement and/or evaluation of language processing applications, but also, in a broader sense, in language and language-mediated research studies and applications. The term is used with a broader meaning, encompassing (a) data sets (textual, multimodal/multimedia and lexical data, grammars, language models, etc.) in machine readable form, and (b) tools/technologies/services used for their processing and management.</p>
-<p>LRTs are distributed and consumed with various forms: e.g., corpora may be distributed as content files to be downloaded, or made available through dedicated interfaces (e.g., a corpus workbench, or a SPARQL endpoint); tools/services may be distributed as content files containing the source code, as executable files to be downloaded and run locally, or as web services.</p>
-<p><b>Distributable forms</b> of an LRT may be accessed with the same access conditions or with different ones, which must be described in the form of a <b>policy statement</b>; this can range from a "standard" licence (e.g., one from the Creative Commons suite of licences) to a commercial licence with terms for the use of an individual resource.</p>
-<p>Entities that provide access to LRTs typically support one or more of the following <b>operations</b>:</p>
-<ul>
-<li>download of content files hosted in the repository</li>
-<li>execution of services deployed in the repository</li>
-<li>processing of data resources hosted in the repository with services deployed in the repository to create a new output resource (e.g., a corpus annotated with semantic information, a Machine Learning model trained on a corpus)</li>
-<li>combination of data resources hosted in the repository to create a new resource which includes all or parts of the original resource ("collection")</li>
-<li>combination of tools/services deployed in the repository to create a new composite tool or service ("workflow").</li>
-</ul>
-<p>The policy statements (licences and terms of use) that accompany a resource regulate its use by end-users but do not explicitly describe the <b>rules</b> (duties, restrictions, permissions) to be imposed by the entities when providing access to them. This set of rules may be inferred from the licensing conditions and needs to be calculated (semi-)automatically. One of the main objectives of this profile is to support the expression of these conditions, their automatic computation when possible and their representation in the form of authorisation statements and actions.</p>
+		<h3>Objectives of the report</h3>
+		<p>This report aims to offer practical and easy-to-follow guidelines for licensing Linguistic Linked Data (LLD) and related services. The target audience includes researchers that wish to publish their resources, as well as institutions (e.g. repositories, archives, etc.) that act as intermediaries for the distribution of resources (hereafter, referred to as "distributing entities").</p>
+		<h3>Structure of the report</h3>
+		part a - why license a work and selecting a licence
+		part b - assigning a licence to a work
+		part c - representing a licence
 
 </section>
-<section id="reqsdetail">
-		<h3>Detailed requirements</h3> 	
-<p>Entities responsible for sharing LRTs must satisfy the user requirements of both LRT providers and consumers, as described in Appendix A. To achieve this goal, the following requirements are set:</p>
-<p>R1.	For granting access to an LRT,  the LRT must be released with a clear and accessible usage licence, which must be uniquely referred to in the formal description (metadata record) of the LRT (see also FAIR principle R1.1)</p>
-<p>a.	The licence must be described at the level of the distributable form of the LRT; different distributable forms may be released with different licences.</p>
-<p>R2.	The licence text must be available in a digital form and accessible to the end users so that they are aware of the terms under which they can use the LRT.</p>
-<p>R3.	The formal description of the licence should include metadata elements (names, broad usage conditions) that support findability of the LRT.</p>
-<p>R4.	The formal description of the licence should be machine actionable, i.e. include terms and indications that facilitate computational agents to perform actions that enable access to LRTs according to its licensing conditions. More precisely, it must include at least those terms that the entities granting access can use to restrict access to LRTs; such restrictions are typically based on user type, billing model, soliciting consent by users, tracking of users, monitoring of usage, etc.</p>
-<p>a.	For data resources, access may be limited to download and/or processing based on user type (e.g., for academic users only, for members of a group), following payment, or deposition of a research plan, etc.</p>
-<p>b.	For services, in addition, access may be limited and/or billed based on a count of specific units (e.g., count of API requests, characters to be processed, audio/video seconds to be processed) for a limited time period (e.g., on a weekly basis)</p>
-<p>c.	Entities granting end users access to an LRT must ensure they grant such access in accordance with its licensing conditions to the extent that these can be controlled by them; licensing conditions that cannot be controlled by them remain at the end-user's responsibility/liability.</p>
-<p>R5.	To allow combination of LRTs or processing of LRTs, their licensing conditions must be compatible and allow combination or processing actions; these permissions should be included in the formal description of the licences.</p>
-<p>R6.	The formal description of the LRT should include elements that may help resolve issues related to rights and access.</p>
-</section>
+
 
 		<section id="conventions">
 				<h2>Document Conventions</h2>
@@ -166,117 +168,102 @@ These hosting/distributing entities (in short "distributing entities") act as in
 		<!--<form id="langOptions" action="#">View as: <label><input name="presLang" value="turtle" checked="checked" type="radio">Turtle (press 't')</label>
       <label><input name="presLang" value="json-ld" type="radio">JSON-LD
           (press 'j')</label> . </form>-->
-		  
+		
+<section id="selectingLicence">
+<h2>Licensing a work and selecting a licence</h2>
+TODO
+</section>
+		
 
-<section id="spec">
-<h2>Profile specification</h2>
-<h3>Entities</h3>
-The current specification focuses on three classes taken from the <a href="http://w3id.org/meta-share/meta-share">META-SHARE</a> vocabulary: <code>Resource</code>, <code>Distribution</code> and <code>LicenceTerms</code>. For the first two classes, we reuse the META-SHARE vocabulary and include here only those properties that are of interest to this specification. In addition, the <code>LicenceTerms</code> is further represented as a <code>policy</code> in accordance with the ODRL model. 
-
-<section id="resources">
-<h4>Resources</h4>
-A distinction is made between the <em>language resource / technology</em>, as the object created and described at an abstract level, and its <em>distributable form</em>, i.e., the form as packaged, distributed and consumed by end users. Following the <a href="https://www.w3.org/TR/vocab-dcat-2/">DCAT</a> terminology, the former is represented with the class <code>LanguageResource</code> and the latter as <code>DatasetDistribution</code> and <code>SoftwareDistribution</code>.
-
-            <section data-dfn-for="LanguageResource">
-                <h2><dfn>LanguageResource</dfn></h2>
-                <table class="def propdef">
-                    <tbody>
-                        <tr>
-                            <th>Definition:</th><td>A resource composed of linguistic material used in the construction, improvement and/or evaluation of language processing applications, but also, in a broader sense, in language and language-mediated research studies and applications; the term is used with a broader meaning, encompassing (a) data sets (textual, multimodal/multimedia and lexical data, grammars, language models, etc.) in machine readable form, and (b) tools/technologies/services used for their processing and management.</td>
-                        </tr>
-						<tr>
-                            <th>Label:</th><td>Language Resource / Technology</td>
-                        </tr><tr>
-                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/LanguageResource">http://w3id.org/meta-share/meta-share/LanguageResource</a></td>
-                        </tr><tr>
-                            <th style="white-space:nowrap;">Sub-class Of:</th><td><a href="https://www.w3.org/TR/rdf-schema/#ch_resource">rdfs:Resource</a>, <a href="http://www.w3.org/ns/dcat#Resource">dcat:Resource</a></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
-			
-            <section data-dfn-for="Corpus">
-                <h2><dfn>Corpus</dfn></h2>
-                <table class="def propdef">
-                    <tbody>
-                        <tr>
-                            <th>Definition:</th><td>A structured collection of pieces of data (textual, audio, video, multimodal/multimedia, etc.) typically of considerable size and selected according to criteria external to the data (e.g., size, type of language, type of text producers or expected audience, etc.) to represent as comprehensively as possible the object of study.</td>
-                        </tr>
-						<tr>
-                            <th>Label:</th><td>Corpus</td>
-                        </tr><tr>
-                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/Corpus">http://w3id.org/meta-share/meta-share/Corpus</a></td>
-                        </tr><tr>
-                            <th style="white-space:nowrap;">Sub-class Of:</th><td><a href="http://w3id.org/meta-share/meta-share/LanguageResource">ms:LanguageResource</a></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
-
-            <section data-dfn-for="LexicalConceptualResource">
-                <h2><dfn>Lexical/Conceptual Resource</dfn></h2>
-                <table class="def propdef">
-                    <tbody>
-                        <tr>
-                            <th>Definition:</th><td>A resource organised on the basis of lexical or conceptual entries (lexical items, terms, concepts, etc.) with their supplementary information (e.g., grammatical, semantic, statistical information, etc.).</td>
-                        </tr>
-						<tr>
-                            <th>Label:</th><td>Lexical/Conceptual Resource</td>
-                        </tr><tr>
-                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/LexicalConceptualResource">http://w3id.org/meta-share/meta-share/LexicalConceptualResource</a></td>
-                        </tr><tr>
-                            <th style="white-space:nowrap;">Sub-class Of:</th><td><a href="http://w3id.org/meta-share/meta-share/LanguageResource">ms:LanguageResource</a></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
-
-            <section data-dfn-for="LanguageDescription">
-                <h2><dfn>Language description</dfn></h2>
-                <table class="def propdef">
-                    <tbody>
-                        <tr>
-                            <th>Definition:</th><td>A resource that describes a language or some aspect(s) of a language via a systematic documentation of linguistic structures.</td>
-                        </tr>
-						<tr>
-                            <th>Label:</th><td>Language description</td>
-                        </tr><tr>
-                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/LanguageDescription">http://w3id.org/meta-share/meta-share/LanguageDescription</a></td>
-                        </tr><tr>
-                            <th style="white-space:nowrap;">Sub-class Of:</th><td><a href="http://w3id.org/meta-share/meta-share/LanguageResource">ms:LanguageResource</a></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
-
-            <section data-dfn-for="ToolService">
-                <h2><dfn>Tool/Service</dfn></h2>
-                <table class="def propdef">
-                    <tbody>
-                        <tr>
-                            <th>Definition:</th><td>A tool/service/any piece of software that performs language processing and/or any Language Technology related operation.</td>
-                        </tr>
-						<tr>
-                            <th>Label:</th><td>Tool/Service</td>
-                        </tr><tr>
-                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/ToolService">http://w3id.org/meta-share/meta-share/ToolService</a></td>
-                        </tr><tr>
-                            <th style="white-space:nowrap;">Sub-class Of:</th><td><a href="http://w3id.org/meta-share/meta-share/LanguageResource">ms:LanguageResource</a></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
+<section id="assignLicence">
+<h2>Where to assign the licence</h2>
+** write on DCAT:dataset dataService and distribution
+** ms:Language resource
+** ?ontolex?
 </section>
 
-<section id="resourceProp">
-<h4>Resource properties</h4>
-<p>The following properties address R6, i.e. can help determine and/or resolve rights and access issues.<p>
-<ul>
-<li>identification of the IPR holder(s): <code>resourceProvider</code>, <code>iprHolder</code></li>
-<li>identification of sources of potential need for restricted licences: <code>personalDataIncluded</code>, <code>personalDataDetails</code>, <code>sensitiveDataIncluded</code>, <code>sensitiveDataDetails</code>, <code>anonymized</code>, <code>anonymizationDetails</code>.</li>
-</ul>
+<section id="assignProps">
+<h2>How to assign the licence</h2>
 
-            <section data-dfn-for="resourceProvider">
+Relevant properties & explanation for these terms (cf. also https://www.w3.org/TR/vocab-dcat-3/#license-rights & https://www.w3.org/TR/dwbp/#licenses):
+dcterms:license
+odrl:hasPolicy
+?ms:licenceTerms
+
+<p>The property <code>licenceTerms</code> addresses R1 and R1a. It is the property used for linking LRTs to the policy statements (class <code>LicenceTerms</code>) and it is mandatory in order to ensure legitimate access by end-users (see examples 1 - 5). Normally, each >Distribution</code> must have one licence attached. Multiple licences are also possible for the same <code>Distribution</code> in the following cases:</p>
+<ul>
+<li>a data resource (e.g. a lexicon or corpus) which is accessible with an interface; in this case, the data and the interface may be available with different licences (see example 3)</li>
+<li>a collection composed of subsets released with different licences; for instance, a corpus or lexicon created with the same principles, but released with different conditions for different languages (see example 4).</li>
+</ul>
+<p>In both cases, the access procedure must take into account all licences attached to this <code>Distribution</code>.</p>
+<p>LRTs whose licence is not identified in the formal description may be included in a catalogue for information purposes only, clearly marked as such and described with at least an access statement which is added with the <code>accessRights</code> property.</p>
+
+            <section data-dfn-for="licenceTerms">
+                <h2><dfn>licenceTerms</dfn></h2>
+                <table class="def propdef">
+                    <tbody>
+                        <tr>
+                            <th>Definition:</th><td>Links the distribution (distributable form) of a language resource to the licence or terms of use/service (a specific legal document) with which it is distributed</td>
+                        </tr>
+						<tr>
+                            <th>Label:</th><td>licence</td>
+                        </tr><tr>
+                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/licenceTerms">http://w3id.org/meta-share/meta-share/licenceTerms</a></td>
+                        </tr>
+						<tr>
+                                <th>Domain:</th><td>Union of <a href="http://w3id.org/meta-share/meta-share/DatasetDistribution">ms:DatasetDistribution</a> and <a href="http://w3id.org/meta-share/meta-share/SoftwareDistribution">ms:SoftwareDistribution</a></td>
+                            </tr><tr>
+                                <th>Range:</th><td>ms:LicenceTerms</td>
+                            </tr>
+                    </tbody>
+                </table>
+            </section>
+
+Range: 
+Note: although the range of the above properties can simply be an IRI, this is where we could make suggestions so that we distinguish between 
+human-readable summary (e.g. https://creativecommons.org/licenses/by/4.0/) 
+human-readable legal document (https://creativecommons.org/licenses/by/4.0/legalcode) 
+machine-readable representation of the legal document (cf. https://rdflicense.linkeddata.es/) 
+we should recommend using specific vocabularies, such as
+licences: https://spdx.org/licenses/; this is the most popular one; are there other lists of licences? 
+
+</section>
+
+<section id="additionalProp">
+<h3>Addtional properties</h3>
+<h4>Access rights</h4>
+dcterms:accessRights
+ms:accessRights, ms:licenceCategory
+access rights: https://vocabularies.coar-repositories.org/access_rights/, https://rightsstatements.org/en/ , … 
+            <section data-dfn-for="accessRights">
+                <h2><dfn>accessRights</dfn></h2>
+                <table class="def propdef">
+                    <tbody>
+                        <tr>
+                            <th>Definition:</th><td>Specifies the rights for accessing the distributable form(s) of a language resource (preferrably in accordance to a formalised vocabulary)</td>
+                        </tr>
+						<tr>
+                            <th>Label:</th><td>access rights</td>
+                        </tr><tr>
+                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/accessRights">http://w3id.org/meta-share/meta-share/accessRights</a></td>
+                        </tr>
+						<tr>
+                                <th>Domain:</th><td>Union of <a href="http://w3id.org/meta-share/meta-share/DatasetDistribution">ms:DatasetDistribution</a> and <a href="http://w3id.org/meta-share/meta-share/SoftwareDistribution">ms:SoftwareDistribution</a></td>
+                            </tr><tr>
+                                <th>Range:</th><td>ms:AccessRightsStatement</td>
+                            </tr>
+							<tr>
+                                <th>Note:</th><td>The property is mandatory when no licence is available for a resource and its intended use is for resources catalogued for information only purposes. For the <code>AccessRightsStatement</code>, it is recommended to use a term from standardized vocabularies, such as the <a href="https://vocabularies.coar-repositories.org/access_rights/">Open COAR Access Rights vocabulary</a> or the statements provided by <a href="https://rightsstatements.org/en/">RightsStatements.org</a></td>
+                            </tr>
+                    </tbody>
+                </table>
+            </section>
+
+<h4>IPR rights</h4>
+dcterms:rights
+
+<p>identification of the IPR holder(s): <code>resourceProvider</code>, <code>iprHolder</code></p>
+        <section data-dfn-for="resourceProvider">
                 <h2><dfn>resourceProvider</dfn></h2>
                 <table class="def propdef">
                     <tbody>
@@ -320,6 +307,15 @@ A distinction is made between the <em>language resource / technology</em>, as th
                 </table>
             </section>
 
+<h5>Sources for restrictions</h5>
+<p> add here DPV discussion and reference </p>
+<p>identification of sources of potential need for restricted licences: <code>personalDataIncluded</code>, <code>personalDataDetails</code>, <code>sensitiveDataIncluded</code>, <code>sensitiveDataDetails</code>, <code>anonymized</code>, <code>anonymizationDetails</code>.</p>
+
+<p>describing restrictions related to the billing module, time restrictions or membership to a group and addressing R4: <code>cost</code>, <code>membershipInstitution</code>, <code>availabilityStartDate</code>, <code>availabilityEndDate</code>. These are used in combination with the <code>licenceTerms</code> to refine licences with additional restrictions. (see examples 5 - 6).
+</p>
+
+
+    
            <section data-dfn-for="pesonalDataIncluded">
                 <h2><dfn>pesonalDataIncluded</dfn></h2>
                 <table class="def propdef">
@@ -446,110 +442,8 @@ A distinction is made between the <em>language resource / technology</em>, as th
                 </table>
             </section>
 			
-			</section>
-<section id="distributions">
-<h4>DatasetDistribution and SoftwareDistribution</h4>
-<p>These are subclasses of <code>dcat:Distribution</code> catering for the distict features of data and software resources, such as different distribution mediums (service or source code for software, content files or forms accessible via interfaces for data resources), descriptive features (size for text, audio, video, image files, technical requirements on the input / output of software).</p>
 
-            <section data-dfn-for="DatasetDistribution">
-                <h2><dfn>DatasetDistribution</dfn></h2>
-                <table class="def propdef">
-                    <tbody>
-                        <tr>
-                            <th>Definition:</th><td>Any form with which a dataset is distributed, such as a downloadable form in a specific format (e.g., spreadsheet, plain text, etc.) or an API with which it can be accessed</td>
-                        </tr>
-						<tr>
-                            <th>Label:</th><td>Dataset Distribution</td>
-                        </tr><tr>
-                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/DatasetDistribution">http://w3id.org/meta-share/meta-share/DatasetDistribution</a></td>
-                        </tr><tr>
-                            <th style="white-space:nowrap;">Sub-class Of:</th><td><a href="https://www.w3.org/ns/dcat#Distribution">dcat:Distribution</a></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
-			
-		
-            <section data-dfn-for="SoftwareDistribution">
-                <h2><dfn>SoftwareDistribution</dfn></h2>
-                <table class="def propdef">
-                    <tbody>
-                        <tr>
-                            <th>Definition:</th><td>Any form with which software is distributed (e.g., web services, executable or code files, etc.)</td>
-                        </tr>
-						<tr>
-                            <th>Label:</th><td>Software Distribution</td>
-                        </tr><tr>
-                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/SoftwareDistribution">http://w3id.org/meta-share/meta-share/SoftwareDistribution</a></td>
-                        </tr><tr>
-                            <th style="white-space:nowrap;">Sub-class Of:</th><td><a href="https://www.w3.org/ns/dcat#Distribution">dcat:Distribution</a></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
 
-</section>
-<section id="distributionProp">
-<h4>Distribution properties</h4>
-<p>Properties of the <code>Distribution</code> subclasses include:</p>
-<ul>
-<li>linking to policy documents regulating the access conditions, addressing R1 and R1a: <code>licenceTerms</code> (see examples 1 - 6) and <code>accessRights</code>
-<li>describing restrictions related to the billing module, time restrictions or membership to a group and addressing R4: <code>cost</code>, <code>membershipInstitution</code>, <code>availabilityStartDate</code>, <code>availabilityEndDate</code>. These are used in combination with the <code>licenceTerms</code> to refine licences with additional restrictions. (see examples 5 - 6).
-</li>
-</ul>
-
-<p>The property <code>licenceTerms</code> addresses R1 and R1a. It is the property used for linking LRTs to the policy statements (class <code>LicenceTerms</code>) and it is mandatory in order to ensure legitimate access by end-users (see examples 1 - 5). Normally, each >Distribution</code> must have one licence attached. Multiple licences are also possible for the same <code>Distribution</code> in the following cases:</p>
-<ul>
-<li>a data resource (e.g. a lexicon or corpus) which is accessible with an interface; in this case, the data and the interface may be available with different licences (see example 3)</li>
-<li>a collection composed of subsets released with different licences; for instance, a corpus or lexicon created with the same principles, but released with different conditions for different languages (see example 4).</li>
-</ul>
-<p>In both cases, the access procedure must take into account all licences attached to this <code>Distribution</code>.</p>
-<p>LRTs whose licence is not identified in the formal description may be included in a catalogue for information purposes only, clearly marked as such and described with at least an access statement which is added with the <code>accessRights</code> property.</p>
-
-            <section data-dfn-for="licenceTerms">
-                <h2><dfn>licenceTerms</dfn></h2>
-                <table class="def propdef">
-                    <tbody>
-                        <tr>
-                            <th>Definition:</th><td>Links the distribution (distributable form) of a language resource to the licence or terms of use/service (a specific legal document) with which it is distributed</td>
-                        </tr>
-						<tr>
-                            <th>Label:</th><td>licence</td>
-                        </tr><tr>
-                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/licenceTerms">http://w3id.org/meta-share/meta-share/licenceTerms</a></td>
-                        </tr>
-						<tr>
-                                <th>Domain:</th><td>Union of <a href="http://w3id.org/meta-share/meta-share/DatasetDistribution">ms:DatasetDistribution</a> and <a href="http://w3id.org/meta-share/meta-share/SoftwareDistribution">ms:SoftwareDistribution</a></td>
-                            </tr><tr>
-                                <th>Range:</th><td>ms:LicenceTerms</td>
-                            </tr>
-                    </tbody>
-                </table>
-            </section>
-
-            <section data-dfn-for="accessRights">
-                <h2><dfn>accessRights</dfn></h2>
-                <table class="def propdef">
-                    <tbody>
-                        <tr>
-                            <th>Definition:</th><td>Specifies the rights for accessing the distributable form(s) of a language resource (preferrably in accordance to a formalised vocabulary)</td>
-                        </tr>
-						<tr>
-                            <th>Label:</th><td>access rights</td>
-                        </tr><tr>
-                            <th>Identifier:</th><td><a href="http://w3id.org/meta-share/meta-share/accessRights">http://w3id.org/meta-share/meta-share/accessRights</a></td>
-                        </tr>
-						<tr>
-                                <th>Domain:</th><td>Union of <a href="http://w3id.org/meta-share/meta-share/DatasetDistribution">ms:DatasetDistribution</a> and <a href="http://w3id.org/meta-share/meta-share/SoftwareDistribution">ms:SoftwareDistribution</a></td>
-                            </tr><tr>
-                                <th>Range:</th><td>ms:AccessRightsStatement</td>
-                            </tr>
-							<tr>
-                                <th>Note:</th><td>The property is mandatory when no licence is available for a resource and its intended use is for resources catalogued for information only purposes. For the <code>AccessRightsStatement</code>, it is recommended to use a term from standardized vocabularies, such as the <a href="https://vocabularies.coar-repositories.org/access_rights/">Open COAR Access Rights vocabulary</a> or the statements provided by <a href="https://rightsstatements.org/en/">RightsStatements.org</a></td>
-                            </tr>
-                    </tbody>
-                </table>
-            </section>
 
             <section data-dfn-for="cost">
                 <h2><dfn>cost</dfn></h2>
@@ -638,8 +532,8 @@ A distinction is made between the <em>language resource / technology</em>, as th
 
 </section>
 <section id="policies">
-<h2>Policies (Licences and Terms of use/service)</h2>
-<h3>LicenceTerms</h3>
+<h2>Representing licences and policies </h2>
+<h3>Standard licences</h3>
 <p>This class covers legal documents, i.e., licences and terms of use or service for data resources and software.</p>
 
             <section data-dfn-for="LicenceTerms (capitalized)">
@@ -805,6 +699,10 @@ A distinction is made between the <em>language resource / technology</em>, as th
                     </tbody>
                 </table>
             </section>
+			
+</section>
+<section id="licenceAddProps">
+<h3>Licence additional properties</h3>
 
            <section data-dfn-for="conditionOfUse">
                 <h2><dfn>conditionOfUse</dfn></h2>
@@ -856,6 +754,17 @@ A distinction is made between the <em>language resource / technology</em>, as th
 
 
 </section>
+
+<section id="policies">
+<h1>representing licences as ODRL policies</h1>
+Recommend representation as ODRL policies (https://www.w3.org/ns/odrl/2/); further notes:
+for standard licences, links to existing vocabularies (e.g. DALICC, rdflicense); we can either select one such vocabulary and/or have links to more (cf. https://rdflicense.linkeddata.es/ which can be used as an index for representations with different vocabularies)
+for non standard licences (i.e. created by users), produce general guidelines & examples, cf. LIDER reference card and ongoing work on ODRL profile for LRTs)
+include (here or in zotero library)
+editors for creating ODRL policies? (e.g. https://www.dalicc.net/license-composer/, Solid-SOPE, IDS PAP) 
+validators for ODRL policies? 
+
+
 <section id="parties">
 <h2>Parties</h2>
 <h3>Party roles and types</h3>
